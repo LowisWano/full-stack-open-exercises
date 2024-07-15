@@ -5,7 +5,7 @@ const Persons = ({searchResults, handleDelete})=>{
         <div>
             {   
                 searchResults.map((person) => {
-                    return <Person key={person.id} name={person.name} number={person.number} handleDelete={handleDelete} id={person.id}/>
+                    return <Person key={person.id} handleDelete={handleDelete} person={person}/>
                 })
             }
         </div>

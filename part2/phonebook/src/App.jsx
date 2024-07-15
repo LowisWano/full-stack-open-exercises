@@ -23,10 +23,23 @@ const App = () => {
 
 	const handleSubmit = (event)=>{
 		event.preventDefault();
-		const findMatch = (person) => person.name === newName; 
+		const match = persons.find((person) => person.name === newName); 
 
-		if(persons.some(findMatch)){
-			alert(`${newName} is already added to the phonebook`)
+		if(match){
+			if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)){
+				const updatedPerson = {
+					...match,
+					number: newNumber
+				}
+				personService.update(match.id, updatedPerson)
+				.then(returnedPerson=>{
+					const updatedPersons = persons.map(person=>person.id !== match.id ? person: returnedPerson);
+					setPersons(updatedPersons);
+					setSearchResult(updatedPersons);
+					setNewName('');
+					setNewNumber('');
+				})
+			}
 		}else{
 			const newPerson = {
 				name: newName,
@@ -63,13 +76,17 @@ const App = () => {
 		setSearchField(event.target.value);
 	}
 
-	const handleDelete = (id)=>{
-		personService.deletePerson(id)
-		.then((response)=>{
-			const updatedPersons = persons.filter((person)=>person.id!=response.id);
-			setPersons(updatedPersons);
-			setSearchResult(updatedPersons);
-		})
+	const handleDelete = (personObj)=>{
+		console.log(personObj);
+		if(window.confirm(`Delete ${personObj.name} ?`)){
+			personService.deletePerson(personObj.id)
+			.then((response)=>{
+				const updatedPersons = persons.filter((person)=>person.id!=response.id);
+				setPersons(updatedPersons);
+				setSearchResult(updatedPersons);
+			})
+		}
+		
 	}
 
   return (
