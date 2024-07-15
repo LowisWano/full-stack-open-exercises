@@ -1,19 +1,25 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
+import personService from './services/persons'
 
 const App = () => {
-	const [persons, setPersons] = useState([
-		{ name: 'Arto Hellas', number: '040-123456', id: 1 },
-		{ name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-		{ name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-		{ name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-	]);
+	const [persons, setPersons] = useState([]);
 	const [newName, setNewName] = useState('');
 	const [newNumber, setNewNumber] = useState('');
 	const [search, setSearchField] = useState('');
-	const [searchResults, setSearchResult] = useState(persons)
+	const [searchResults, setSearchResult] = useState(persons);
+
+	useEffect(()=>{
+		personService.getAll()
+		.then(response=>{
+			setPersons(response);
+			setSearchResult(response);
+		})
+	},[])
+	
 
 	const handleSubmit = (event)=>{
 		event.preventDefault();
@@ -26,11 +32,15 @@ const App = () => {
 				name: newName,
 				number: newNumber
 			}
-			const updatedPersons = persons.concat(newPerson)
-			setPersons(updatedPersons);
-			setSearchResult(updatedPersons);
-			setNewName('');
-			setNewNumber('');
+
+			personService.create(newPerson)
+			.then(response=>{
+				const updatedPersons = persons.concat(response);
+				setPersons(updatedPersons);
+				setSearchResult(updatedPersons);
+				setNewName('');
+				setNewNumber('');
+			})
 		}
 	}
 
@@ -39,7 +49,7 @@ const App = () => {
 		const searchField = search.toLowerCase();
 		const findSubstring = (person)=>person.name.toLowerCase().includes(searchField);
 		setSearchResult(persons.filter(findSubstring));
-  }
+  	}
 
 	const handleNameChange = (event) => {
 		setNewName(event.target.value);
@@ -51,6 +61,15 @@ const App = () => {
 
 	const handleSearch = (event)=>{
 		setSearchField(event.target.value);
+	}
+
+	const handleDelete = (id)=>{
+		personService.deletePerson(id)
+		.then((response)=>{
+			const updatedPersons = persons.filter((person)=>person.id!=response.id);
+			setPersons(updatedPersons);
+			setSearchResult(updatedPersons);
+		})
 	}
 
   return (
@@ -72,9 +91,9 @@ const App = () => {
 	  />
 	  
       <h3>Numbers</h3>
-      <Persons searchResults={searchResults}/>
+      <Persons searchResults={searchResults} handleDelete={handleDelete}/>
     </div>
   )
 }
 
-export default App
+export default App;
