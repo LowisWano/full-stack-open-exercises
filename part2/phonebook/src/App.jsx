@@ -4,6 +4,7 @@ import Filter from './components/Filter'
 import PersonForm from './components/PersonForm'
 import Persons from './components/Persons'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
 	const [persons, setPersons] = useState([]);
@@ -11,6 +12,8 @@ const App = () => {
 	const [newNumber, setNewNumber] = useState('');
 	const [search, setSearchField] = useState('');
 	const [searchResults, setSearchResult] = useState(persons);
+	const [notifMessage, setNotifMessage] = useState();
+	const [notifType, setNotifType] = useState('');
 
 	useEffect(()=>{
 		personService.getAll()
@@ -20,41 +23,75 @@ const App = () => {
 		})
 	},[])
 	
-
+	// put catch handlers in case of error for update and delete
 	const handleSubmit = (event)=>{
 		event.preventDefault();
-		const match = persons.find((person) => person.name === newName); 
+		const match = persons.find((person) => person.name === newName);
 
 		if(match){
 			if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)){
-				const updatedPerson = {
+				personService.update(match.id, {
 					...match,
 					number: newNumber
-				}
-				personService.update(match.id, updatedPerson)
+				})	
 				.then(returnedPerson=>{
 					const updatedPersons = persons.map(person=>person.id !== match.id ? person: returnedPerson);
 					setPersons(updatedPersons);
 					setSearchResult(updatedPersons);
 					setNewName('');
 					setNewNumber('');
+				}).catch(error => {
+					setNotifType('error')
+					setNotifMessage(`Information of ${newName} has already been removed from server`);
+					setPersons(persons.filter((person)=>person.id!=match.id));
+					setSearchResult(persons.filter((person)=>person.id!=match.id));
+					
+					setTimeout(() => {
+						setNotifMessage(null)
+					}, 5000);
 				})
 			}
 		}else{
-			const newPerson = {
+			personService.create({
 				name: newName,
 				number: newNumber
-			}
-
-			personService.create(newPerson)
+			})
 			.then(response=>{
 				const updatedPersons = persons.concat(response);
 				setPersons(updatedPersons);
 				setSearchResult(updatedPersons);
+
+				setNotifType('success')
+				setNotifMessage(`Added ${newName}`);
+				setTimeout(() => {
+					setNotifMessage(null)
+				}, 5000);
 				setNewName('');
 				setNewNumber('');
 			})
 		}
+	}
+
+	const handleDelete = (personObj)=>{
+		if(window.confirm(`Delete ${personObj.name} ?`)){
+			personService.deletePerson(personObj.id)
+			.then((response)=>{
+				const updatedPersons = persons.filter((person)=>person.id!=response.id);
+				setPersons(updatedPersons);
+				setSearchResult(updatedPersons);
+			})
+			.catch(error => {
+				setNotifType('error')
+				setNotifMessage(`Information of ${personObj.name} has already been removed from server`);
+				setPersons(persons.filter((person)=>person.id!=personObj.id));
+				setSearchResult(persons.filter((person)=>person.id!=personObj.id));
+				
+				setTimeout(() => {
+					setNotifMessage(null)
+				}, 5000);
+			})
+		}
+		
 	}
 
 	const handleSearchSubmit = (event)=>{
@@ -76,22 +113,13 @@ const App = () => {
 		setSearchField(event.target.value);
 	}
 
-	const handleDelete = (personObj)=>{
-		console.log(personObj);
-		if(window.confirm(`Delete ${personObj.name} ?`)){
-			personService.deletePerson(personObj.id)
-			.then((response)=>{
-				const updatedPersons = persons.filter((person)=>person.id!=response.id);
-				setPersons(updatedPersons);
-				setSearchResult(updatedPersons);
-			})
-		}
-		
-	}
-
   return (
     <div>
       <h2>Phonebook</h2>
+	  	<Notification
+			message={notifMessage}
+			notifType={notifType}
+		/>
 		<Filter 
 	  		handleSearchSubmit={handleSearchSubmit}
 			search={search}
