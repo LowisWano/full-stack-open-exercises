@@ -1,9 +1,9 @@
 
-const Form = ({ submitHandler })=>{
+const Form = ({ handleSubmit, handleSearch })=>{
     return(
-        <form onSubmit={submitHandler}>
+        <form onSubmit={handleSubmit}>
             find countries
-            <input type="text" />
+            <input type="text" onChange={handleSearch}/>
         </form>
     )
 }

@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react'
-import axios from 'axios'
 import Form from './components/Form'
 import services from './services/services'
 
 function App() {
   const [countries, setCountries] = useState(0);
   const [search, setSearch] = useState('');
+  const [searchResult, setSearchResult] = useState('');
 
   useEffect(()=>{
 		services.getAll()
@@ -14,16 +14,21 @@ function App() {
 		})
 	},[])
 
-  const submitHandler = (e) => {
-    e.preventDefault()
-    console.log(e.target)
+  const handleSubmit = (event) => {
+    event.preventDefault()
+  }
+
+  const handleSearch = (event) =>{
+    setSearch(event.target.value);
   }
 
   return (
     <div>
       <Form
-        submitHandler={submitHandler}
+        submitHandler={handleSubmit}
+        handleSearch={handleSearch}
       />
+      
     </div>
   )
 }
