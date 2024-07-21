@@ -15,15 +15,21 @@ function App() {
 		})
 	},[])
 
+  const findSubstring = (searchField)=> {
+    return (country)=>country.name.common.toLowerCase().includes(searchField.toLowerCase())
+  }
+  
   const handleSubmit = (event) => {
     event.preventDefault();
-    const searchField = search.toLowerCase();
-    const findSubstring = (country)=>country.name.common.toLowerCase().includes(searchField);
-		setSearchResult(countries.filter(findSubstring));
+		setSearchResult(countries.filter(findSubstring(search)));
   }
 
   const handleSearch = (event) =>{
     setSearch(event.target.value);
+  }
+
+  const showPage = ()=>{
+    console.log("hello");
   }
 
   return (
@@ -35,6 +41,7 @@ function App() {
       
       <Results
         searchResult={searchResult}
+        showPage={showPage}
       />
     </div>
   )
