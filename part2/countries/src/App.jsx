@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Form from './components/Form'
+import Results from './components/Results'
 import services from './services/services'
 
 function App() {
@@ -15,7 +16,10 @@ function App() {
 	},[])
 
   const handleSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
+    const searchField = search.toLowerCase();
+    const findSubstring = (country)=>country.name.common.toLowerCase().includes(searchField);
+		setSearchResult(countries.filter(findSubstring));
   }
 
   const handleSearch = (event) =>{
@@ -25,10 +29,13 @@ function App() {
   return (
     <div>
       <Form
-        submitHandler={handleSubmit}
+        handleSubmit={handleSubmit}
         handleSearch={handleSearch}
       />
       
+      <Results
+        searchResult={searchResult}
+      />
     </div>
   )
 }
