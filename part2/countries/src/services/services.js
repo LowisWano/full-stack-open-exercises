@@ -1,26 +1,22 @@
-import axios from 'axios'
-const baseUrl = 'https://studies.cs.helsinki.fi/restcountries/api/all' 
+import axios from 'axios';
+const api_key = import.meta.env.VITE_SOME_KEY;
+const countriesUrl = 'https://studies.cs.helsinki.fi/restcountries/api/all';
+const baseWeatherUrl = 'https://api.openweathermap.org/data/2.5/weather';
+
+const getWeatherUrl = (lat, lon, api_param)=>{
+  return `${baseWeatherUrl}?lat=${lat}&lon=${lon}&appid=${api_param}&units=metric`;
+}
 
 const getAll = () => {
-    const request = axios.get(baseUrl)
-    return request.then(response => response.data)
-  }
+    const request = axios.get(countriesUrl);
+    return request.then(response => response.data);
+}
   
-//   const create = newObject => {
-//     const request = axios.post(baseUrl, newObject)
-//     return request.then(response => response.data)
-//   }
-  
-//   const update = (id, newObject) => {
-//     const request = axios.put(`${baseUrl}/${id}`, newObject)
-//     return request.then(response => response.data)
-//   }
-  
-//   const deletePerson = (id)=>{
-//     const request = axios.delete(`${baseUrl}/${id}`)
-//     return request.then(response => response.data);
-//   }
-  
-  const exports = {getAll}
-  
-  export default exports;
+const getWeatherInfo = (lat, lon)=>{
+  const request = axios.get(getWeatherUrl(lat, lon, api_key));
+  return request.then(response=>response.data);
+}
+
+
+const exports = {getAll, getWeatherInfo};
+export default exports;

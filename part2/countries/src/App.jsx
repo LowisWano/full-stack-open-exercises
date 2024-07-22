@@ -28,10 +28,11 @@ function App() {
     setSearch(event.target.value);
   }
 
-  const showPage = ()=>{
-    console.log("hello");
+  const showPage = (countryInfo)=>{
+    const countryArr = [countryInfo]
+    return ()=>setSearchResult(countryArr);
   }
-
+  
   return (
     <div>
       <Form
