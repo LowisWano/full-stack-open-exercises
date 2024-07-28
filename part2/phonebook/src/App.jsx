@@ -28,6 +28,7 @@ const App = () => {
 		event.preventDefault();
 		const match = persons.find((person) => person.name === newName);
 
+    // refactor the code to create functions out of repeating code and create success notif for update and delete
 		if(match){
 			if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)){
 				personService.update(match.id, {
