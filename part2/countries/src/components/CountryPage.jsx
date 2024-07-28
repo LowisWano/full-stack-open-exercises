@@ -32,9 +32,9 @@ const CountryPage = ({ countryData }) => {
       </ul>
       <img src={countryData.flags.png} alt={countryData.flags.alt}/>
       <h2>Weather in {countryData.capital[0]}</h2>
-      <p>temperature {weatherData.main.temp}</p>
+      <p>temperature {weatherData.main.temp} Celsius</p>
       <img src={`https://openweathermap.org/img/wn/${weatherData.weather[0].icon}@2x.png`} alt="" />
-      <p>wind {weatherData.wind.speed}</p>
+      <p>wind {weatherData.wind.speed} m/s</p>
     </div>
   )
 }
