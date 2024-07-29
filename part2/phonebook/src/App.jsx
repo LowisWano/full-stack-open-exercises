@@ -22,13 +22,29 @@ const App = () => {
 			setSearchResult(response);
 		})
 	},[])
+
+  const displayNotif = (type, message)=>{
+    setNotifType(type);
+    setNotifMessage(message)
+    setTimeout(() => {
+      setNotifMessage(null)
+    }, 5000);
+  }
+
+  const setPersonData = (personData)=>{
+    setPersons(personData);
+		setSearchResult(personData);
+  }
+
+  const clearInputFields = ()=>{
+    setNewName('');
+		setNewNumber('');
+  }
 	
-	// put catch handlers in case of error for update and delete
 	const handleSubmit = (event)=>{
 		event.preventDefault();
 		const match = persons.find((person) => person.name === newName);
 
-    // refactor the code to create functions out of repeating code and create success notif for update and delete
 		if(match){
 			if(window.confirm(`${newName} is already added to the phonebook, replace the old number with a new one?`)){
 				personService.update(match.id, {
@@ -36,20 +52,13 @@ const App = () => {
 					number: newNumber
 				})	
 				.then(returnedPerson=>{
-					const updatedPersons = persons.map(person=>person.id !== match.id ? person: returnedPerson);
-					setPersons(updatedPersons);
-					setSearchResult(updatedPersons);
-					setNewName('');
-					setNewNumber('');
+					const updatedPersons = persons.map(person=>person.id !== match.id ? person: returnedPerson)
+					setPersonData(updatedPersons)
+          displayNotif('success', `Succesfully updated the number of ${newName}`)
+					clearInputFields()
 				}).catch(error => {
-					setNotifType('error')
-					setNotifMessage(`Information of ${newName} has already been removed from server`);
-					setPersons(persons.filter((person)=>person.id!=match.id));
-					setSearchResult(persons.filter((person)=>person.id!=match.id));
-					
-					setTimeout(() => {
-						setNotifMessage(null)
-					}, 5000);
+          displayNotif('error', `Information of ${newName} has already been removed from server`)
+					setPersonData(persons.filter((person)=>person.id!=match.id));
 				})
 			}
 		}else{
@@ -58,17 +67,10 @@ const App = () => {
 				number: newNumber
 			})
 			.then(response=>{
-				const updatedPersons = persons.concat(response);
-				setPersons(updatedPersons);
-				setSearchResult(updatedPersons);
-
-				setNotifType('success')
-				setNotifMessage(`Added ${newName}`);
-				setTimeout(() => {
-					setNotifMessage(null)
-				}, 5000);
-				setNewName('');
-				setNewNumber('');
+				const updatedPersons = persons.concat(response)
+				setPersonData(updatedPersons)
+        displayNotif('success', `Added ${newName}`)
+				clearInputFields()
 			})
 		}
 	}
@@ -77,19 +79,13 @@ const App = () => {
 		if(window.confirm(`Delete ${personObj.name} ?`)){
 			personService.deletePerson(personObj.id)
 			.then((response)=>{
-				const updatedPersons = persons.filter((person)=>person.id!=response.id);
-				setPersons(updatedPersons);
-				setSearchResult(updatedPersons);
+				const updatedPersons = persons.filter((person)=>person.id!=response.id)
+				setPersonData(updatedPersons)
+        displayNotif('success', `Succesfully deleted ${personObj.name}`)
 			})
 			.catch(error => {
-				setNotifType('error')
-				setNotifMessage(`Information of ${personObj.name} has already been removed from server`);
-				setPersons(persons.filter((person)=>person.id!=personObj.id));
-				setSearchResult(persons.filter((person)=>person.id!=personObj.id));
-				
-				setTimeout(() => {
-					setNotifMessage(null)
-				}, 5000);
+        displayNotif('error', `Information of ${personObj.name} has already been removed from server`)
+				setPersonData(persons.filter((person)=>person.id!=personObj.id));
 			})
 		}
 		
@@ -100,7 +96,7 @@ const App = () => {
 		const searchField = search.toLowerCase();
 		const findSubstring = (person)=>person.name.toLowerCase().includes(searchField);
 		setSearchResult(persons.filter(findSubstring));
-  	}
+  }
 
 	const handleNameChange = (event) => {
 		setNewName(event.target.value);
@@ -117,25 +113,24 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-	  	<Notification
-			message={notifMessage}
-			notifType={notifType}
-		/>
-		<Filter 
-	  		handleSearchSubmit={handleSearchSubmit}
-			search={search}
-			handleSearch={handleSearch}
-		/>
+      <Notification
+        message={notifMessage}
+        notifType={notifType}
+      />
+      <Filter 
+        handleSearchSubmit={handleSearchSubmit}
+        search={search}
+        handleSearch={handleSearch}
+      />
 
       <h3>add a new</h3>
       <PersonForm
-		handleSubmit={handleSubmit}
-		newName={newName}
-		handleNameChange={handleNameChange}
-		newNumber={newNumber}
-		handleNumberChange={handleNumberChange}
-	  />
-	  
+        handleSubmit={handleSubmit}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange}
+      />
       <h3>Numbers</h3>
       <Persons searchResults={searchResults} handleDelete={handleDelete}/>
     </div>
