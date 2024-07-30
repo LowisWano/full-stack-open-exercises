@@ -132,7 +132,6 @@ describe('author with the most likes', () => {
 
   test('of a list with 1 blog should contain that blog author', () => {
     const result = listHelper.mostLikes(listWithOneBlog)
-    console.log("1 blog: ", result);
     assert.deepStrictEqual(result, { author: "Edsger W. Dijkstra", likes: 5 })
   })
 
