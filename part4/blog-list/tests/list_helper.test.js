@@ -91,7 +91,11 @@ describe('total likes', () => {
 })
 
 describe('favorite blog', () => {
-  
+  test('of an empty list is null', () => {
+    const result = listHelper.favoriteBlog([])
+    assert.deepStrictEqual(result, null)
+  })
+
   test('when list has only one blog', () => {
     const result = listHelper.favoriteBlog(listWithOneBlog)
     assert.deepStrictEqual(result, listWithOneBlog[0])
@@ -103,7 +107,7 @@ describe('favorite blog', () => {
   })
 })
 
-describe('most blogs', () => {
+describe('author with the most blogs', () => {
   test('of an empty list is null', () => {
     const result = listHelper.mostBlogs([])
     assert.deepStrictEqual(result, null)
@@ -117,5 +121,23 @@ describe('most blogs', () => {
   test('of a list with many blogs should the author with the most blogs', () => {
     const result = listHelper.mostBlogs(listWithManyBlogs)
     assert.deepStrictEqual(result, { author: "Robert C. Martin", blogs: 3 })
+  })
+})
+
+describe('author with the most likes', () => {
+  test('of an empty list is null', () => {
+    const result = listHelper.mostLikes([])
+    assert.deepStrictEqual(result, null)
+  })
+
+  test('of a list with 1 blog should contain that blog author', () => {
+    const result = listHelper.mostLikes(listWithOneBlog)
+    console.log("1 blog: ", result);
+    assert.deepStrictEqual(result, { author: "Edsger W. Dijkstra", likes: 5 })
+  })
+
+  test('of a list with many blogs should the author with the most likes', () => {
+    const result = listHelper.mostLikes(listWithManyBlogs)
+    assert.deepStrictEqual(result, { author: "Edsger W. Dijkstra", likes: 17 })
   })
 })

@@ -18,7 +18,7 @@ const favoriteBlog = (list) => {
   }
 
   return list.length === 0
-  ? 0
+  ? null
   : list.reduce(reducer, list[0])
 }
 
@@ -42,9 +42,33 @@ const mostBlogs = (list) => {
   : list.reduce(reducer, list[0].author)
 }
 
+const mostLikes = (list) =>{
+  const likesCounter = (arr, author) => {
+    return arr.length === 0
+    ? null
+    : arr.reduce((likesTotal, currentBlog) => {
+      return currentBlog.author === author ? likesTotal + currentBlog.likes : likesTotal
+    },0)
+  }
+
+  const reducer = (mostBlogs, currentBlog) => { 
+    const mbLikesCount = likesCounter(list, mostBlogs.author)
+    const cLikesCount = likesCounter(list, currentBlog.author)
+
+    return mbLikesCount > cLikesCount
+    ? { author: mostBlogs.author, likes: mbLikesCount }
+    : { author: currentBlog.author, likes: cLikesCount }
+  }
+  
+  return list.length === 0
+  ? null
+  : list.reduce(reducer, list[0].author)
+}
+
 module.exports = {
   dummy, 
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 }
