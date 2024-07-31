@@ -98,9 +98,22 @@ describe('POST /blogs', () => {
       .send(new_blog)
       .expect(400)
   })
-
 })
 
+describe('DELETE /blogs/:id', () => {
+  test('delete a single blog resource', async () => {
+    const blogsBeforeDelete = await api.get('/api/blogs')
+    const idToDelete = blogsBeforeDelete.body[0].id 
+    
+    await api.delete(`/api/blogs/${idToDelete}`)
+      .expect(204)
+    
+    const blogsAfterDelete = await api.get('/api/blogs')
+    assert.strictEqual(blogsAfterDelete.body.length, test_blogs.length - 1)
+    assert(!blogsAfterDelete.body.some((blog) => blog.id === idToDelete))
+  })
+
+})
 
 after(async () => {
   await mongoose.connection.close()
