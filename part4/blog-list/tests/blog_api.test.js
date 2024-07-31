@@ -122,7 +122,7 @@ describe('UPDATE /blogs/:id', () => {
 
     const updatedBlog = {
       ...sample_blog,
-      likes: 99
+      likes: sample_blog.likes + 1
     }
 
     await api.put(`/api/blogs/${idToUpdate}`)
