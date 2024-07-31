@@ -5,6 +5,8 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 const Blog = require('../models/blog')
+const helper = require('./test_helper')
+const User = require('../models/user')
 
 const test_blogs = [
   {
@@ -26,6 +28,26 @@ beforeEach(async () => {
   const blogObjects = test_blogs.map(blog => new Blog(blog))
   const promiseArray = blogObjects.map(blog => blog.save())
   await Promise.all(promiseArray)
+})
+
+describe.only('POST /api/users', () => {
+  test.only('invalid users cannot be created and is responded with status code 400', async () => {
+    const usersBefore = await helper.usersInDb()
+
+    const invalid_user = {
+      username: 'HL',
+      name: 'Benjamin Gillman',
+      password: 'ui'
+    }
+
+    const result = await api.post('/api/users')
+      .send(invalid_user)
+      .expect(400)
+
+    const usersAfter = await helper.usersInDb()
+    assert(usersAfter.length === usersBefore.length)
+    assert(result.body.error === 'password is too short')
+  })
 })
 
 describe('GET /blogs', () => {
