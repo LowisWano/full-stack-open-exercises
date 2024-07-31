@@ -112,7 +112,30 @@ describe('DELETE /blogs/:id', () => {
     assert.strictEqual(blogsAfterDelete.body.length, test_blogs.length - 1)
     assert(!blogsAfterDelete.body.some((blog) => blog.id === idToDelete))
   })
+})
 
+describe('UPDATE /blogs/:id', () => {
+  test('update a single blog resource', async () => {
+    const blogsBeforeUpdate = await api.get('/api/blogs')
+    const sample_blog = blogsBeforeUpdate.body[0]
+    const idToUpdate = sample_blog.id
+
+    const updatedBlog = {
+      ...sample_blog,
+      likes: 99
+    }
+
+    await api.put(`/api/blogs/${idToUpdate}`)
+      .send(updatedBlog)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+      .expect((response) => {
+        assert.strictEqual(response.body.title, updatedBlog.title)
+        assert.strictEqual(response.body.author, updatedBlog.author)
+        assert.strictEqual(response.body.url, updatedBlog.url)
+        assert.strictEqual(response.body.likes, updatedBlog.likes)
+      })
+  })
 })
 
 after(async () => {
