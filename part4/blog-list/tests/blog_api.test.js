@@ -31,7 +31,7 @@ beforeEach(async () => {
 })
 
 describe.only('POST /api/users', () => {
-  test.only('invalid users cannot be created and is responded with status code 400', async () => {
+  test('invalid users cannot be created and is responded with status code 400', async () => {
     const usersBefore = await helper.usersInDb()
 
     const invalid_user = {
