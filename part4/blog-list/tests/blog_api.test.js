@@ -8,16 +8,16 @@ const Blog = require('../models/blog')
 
 const test_blogs = [
   {
-    "title": "Oi Hughie, Homelander done killed me wife and took me bloody son",
-    "author": "Butcher",
-    "url": "https://www.youtube.com/watch?v=PmHlYDAxSOM",
-    "likes": 0
+    title: "Oi Hughie, Homelander done killed me wife and took me bloody son",
+    author: "Butcher",
+    url: "https://www.youtube.com/watch?v=PmHlYDAxSOM",
+    likes: 0
   },
   {
-    "title": "Flash is fast flash is cool",
-    "author": "Soldier Boy",
-    "url": "https://www.youtube.com/watch?v=li2WDMgHxD0",
-    "likes": 0
+    title: "Flash is fast flash is cool",
+    author: "Soldier Boy",
+    url: "https://www.youtube.com/watch?v=li2WDMgHxD0",
+    likes: 4
   }
 ]
 
@@ -28,7 +28,7 @@ beforeEach(async () => {
   await Promise.all(promiseArray)
 })
 
-describe('GET requests to API', () => {
+describe('GET /blogs', () => {
   test('blogs are returned as json', async () => {
     await api
       .get('/api/blogs')
@@ -46,24 +46,57 @@ describe('GET requests to API', () => {
     assert(response.body[0].hasOwnProperty("id"))
     assert(!response.body[0].hasOwnProperty("_id"))
   })
+})
 
+describe('POST /blogs', () => {
   test('a valid blog can be added', async () => {
     const new_blog = {
-      'title': 'Ur ur ur ur ur',
-      'author': 'Freddy Fazbear',
-      'url': 'https://www.youtube.com/watch?v=PPSzurNBr8s',
-      'likes': 0
+      title: 'Ur ur ur ur ur',
+      author: 'Freddy Fazbear',
+      url: 'https://www.youtube.com/watch?v=PPSzurNBr8s',
+      likes: 5
     }
 
     await api.post('/api/blogs')
       .send(new_blog)
       .expect(201)
       .expect('Content-Type', /application\/json/)
+      .expect((response) => {
+        assert.strictEqual(response.body.title, new_blog.title)
+        assert.strictEqual(response.body.author, new_blog.author)
+        assert.strictEqual(response.body.url, new_blog.url)
+        assert.strictEqual(response.body.likes, new_blog.likes)
+      })
     
       const response = await api.get('/api/blogs')
-      const titles = response.body.map(r => r.title)
       assert.strictEqual(response.body.length, test_blogs.length + 1)
-      assert(titles.includes(new_blog.title))
+  })
+
+  test('likes property default value is 0 if it is missing from request', async () => {
+    const new_blog = {
+      title: 'Despite everything, its still you.',
+      author: 'Determination',
+      url: 'https://www.youtube.com/watch?v=x41MhOJIVOc'
+    }
+
+    await api.post('/api/blogs')
+      .send(new_blog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+      .expect((response) => {
+        assert.strictEqual(response.body.likes, 0)
+      })
+  })
+
+  test('respond with status code 400 if title and url is missing', async () => {
+    const new_blog = {
+      author: 'Freddy Fazbear',
+      likes: 3
+    }
+
+    await api.post('/api/blogs')
+      .send(new_blog)
+      .expect(400)
   })
 
 })
