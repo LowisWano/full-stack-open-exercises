@@ -7,6 +7,7 @@ const cors = require('cors')
 // controllers
 const blogsRouter = require('./controllers/blogsController')
 const usersRouter = require('./controllers/usersController')
+const loginRouter = require('./controllers/loginController')
 
 // utilities
 const config = require('./utils/config')
@@ -30,9 +31,11 @@ app.use(cors())
 // app.use(express.static('dist'))
 app.use(express.json())
 app.use(middleware.requestLogger)
+app.use(middleware.tokenExtractor)
 
 app.use('/api/blogs', blogsRouter)
 app.use('/api/users', usersRouter)
+app.use('/api/login', loginRouter)
 
 app.use(middleware.unknownEndpoint)
 app.use(middleware.errorHandler)
