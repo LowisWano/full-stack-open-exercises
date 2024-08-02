@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import Login from './components/Login'
 import CreateBlog from './components/CreateBlog'
+import Notification from './components/Notification'
 
 //services
 import blogService from './services/blogs'
@@ -16,6 +17,8 @@ const App = () => {
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
+  const [notifMessage, setNotifMessage] = useState(null)
+  const [notifType, setNotifType] = useState(null)
 
   useEffect(() => {
     blogService.getAllBlogs().then(blogs =>
@@ -31,6 +34,14 @@ const App = () => {
       blogService.setToken(loggedUser.token)
     }
   }, [])
+
+  const displayNotif = (type, message)=>{
+    setNotifType(type);
+    setNotifMessage(message)
+    setTimeout(() => {
+      setNotifMessage(null)
+    }, 5000);
+  }
 
   const clearLoginInputFields = () => {
     setUsername('')
@@ -50,9 +61,10 @@ const App = () => {
       window.localStorage.setItem('loggedUser', JSON.stringify(authenticatedUser))
       blogService.setToken(authenticatedUser.token)
       setUser(authenticatedUser)
+      displayNotif('success', 'Login Successfully')
       clearLoginInputFields()
-    } catch (exception){
-      console.log('Wrong credentials, will implement notif react state later');
+    } catch (error){
+      displayNotif('error', error.response.data.error)
     }
   }
 
@@ -69,44 +81,52 @@ const App = () => {
         author: author,
         url: url,
       })
-      // concat response to blog state
-      console.log(response)
       setBlogs(blogs.concat(response))
-      console.log("created blog successfully! will handle notif later")
+      displayNotif('success', `a new blog ${title} by ${author} added`)
       clearNewBlogInputFields()
     } catch (error) {
-      console.log("Failed! ", error.response.data.error)
+      displayNotif('error', error.response.data.error)
     }
   }
 
   if(user === null){
     return (
-      <Login
-        handleLogin = {handleLogin}
-        username = {username}
-        setUsername = {setUsername}
-        password = {password}
-        setPassword = {setPassword}
-      />
+      <div>
+        <Notification
+          message={notifMessage}
+          notifType={notifType}
+        />
+        <Login
+          handleLogin = {handleLogin}
+          username = {username}
+          setUsername = {setUsername}
+          password = {password}
+          setPassword = {setPassword}
+        />
+      </div>
     )
   }
 
   return (
     <div>
       <h1>blogs</h1>
+      <Notification
+        message={notifMessage}
+        notifType={notifType}
+      />
       <p>
         {user.name} logged in
         <button onClick={handleLogout}>logout</button>
       </p>
 
       <CreateBlog
-        handleCreateBlog = {handleCreateBlog}
-        title = {title}
-        setTitle = {setTitle}
-        author = {author}
-        setAuthor = {setAuthor}
-        url = {url}
-        setUrl = {setUrl}
+        handleCreateBlog={handleCreateBlog}
+        title={title}
+        setTitle={setTitle}
+        author={author}
+        setAuthor={setAuthor}
+        url={url}
+        setUrl={setUrl}
       />
 
       {blogs.map(blog =>
