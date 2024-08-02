@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 // components
 import Blog from './components/Blog'
 import Login from './components/Login'
+import CreateBlog from './components/CreateBlog'
 
 //services
 import blogService from './services/blogs'
@@ -98,22 +99,15 @@ const App = () => {
         <button onClick={handleLogout}>logout</button>
       </p>
 
-      <form onSubmit={handleCreateBlog}>
-        <h1>Create New</h1>
-        <p>
-          title: 
-          <input type='text' value={title} onChange={({ target }) => setTitle(target.value)}/>
-        </p>
-        <p>
-          author:
-          <input type='text' value={author} onChange ={({ target }) => setAuthor(target.value)}/>
-        </p>
-        <p>
-          url:
-          <input type='text' value={url} onChange ={({ target }) => setUrl(target.value)}/>
-        </p>
-        <button type='text'>create</button>
-      </form>
+      <CreateBlog
+        handleCreateBlog = {handleCreateBlog}
+        title = {title}
+        setTitle = {setTitle}
+        author = {author}
+        setAuthor = {setAuthor}
+        url = {url}
+        setUrl = {setUrl}
+      />
 
       {blogs.map(blog =>
         <Blog key={blog.id} blog={blog} />
