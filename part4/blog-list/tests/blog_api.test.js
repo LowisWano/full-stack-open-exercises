@@ -23,14 +23,33 @@ const test_blogs = [
   }
 ]
 
+// save thru api nalang first rather than direct querying
 beforeEach(async () => {
   await Blog.deleteMany({})
-  const blogObjects = test_blogs.map(blog => new Blog(blog))
-  const promiseArray = blogObjects.map(blog => blog.save())
+  await User.deleteMany({})
+
+  const test_valid_user = {
+    username: "validUser",
+    name: "luis",
+    password: "luis"
+  }
+  const test_unauthorized_user = {
+    username: "invalidUser",
+    name: "notluis",
+    password: "notluis"
+  }
+
+  await api.post('/api/users').send(test_valid_user)
+  await api.post('/api/users').send(test_unauthorized_user)
+
+  const response = await api.post('/api/login').send({ username: "validUser", password: "luis" })
+  const token = response.body.token
+
+  const promiseArray = test_blogs.map(blog => api.post('/api/blogs').send(blog).set({ Authorization: `Bearer ${token}` }))
   await Promise.all(promiseArray)
 })
 
-describe.only('POST /api/users', () => {
+describe('POST /api/users', () => {
   test('invalid users cannot be created and is responded with status code 400', async () => {
     const usersBefore = await helper.usersInDb()
 
@@ -71,6 +90,12 @@ describe('GET /blogs', () => {
 })
 
 describe('POST /blogs', () => {
+  let token
+  beforeEach(async () => {
+    const response = await api.post('/api/login').send({ username: "validUser", password: "luis" })
+    token = response.body.token
+  })
+
   test('a valid blog can be added', async () => {
     const new_blog = {
       title: 'Ur ur ur ur ur',
@@ -78,9 +103,9 @@ describe('POST /blogs', () => {
       url: 'https://www.youtube.com/watch?v=PPSzurNBr8s',
       likes: 5
     }
-
     await api.post('/api/blogs')
       .send(new_blog)
+      .set({ Authorization: `Bearer ${token}` })
       .expect(201)
       .expect('Content-Type', /application\/json/)
       .expect((response) => {
@@ -94,6 +119,19 @@ describe('POST /blogs', () => {
       assert.strictEqual(response.body.length, test_blogs.length + 1)
   })
 
+  test('adding a blog fails with status code 401 if token is not provided', async () => {
+    const new_blog = {
+      title: 'Ur ur ur ur ur',
+      author: 'Freddy Fazbear',
+      url: 'https://www.youtube.com/watch?v=PPSzurNBr8s',
+      likes: 5
+    }
+    await api.post('/api/blogs')
+      .send(new_blog)
+      .set({ Authorization: `Bearer ${null}` })
+      .expect(401)
+  })
+
   test('likes property default value is 0 if it is missing from request', async () => {
     const new_blog = {
       title: 'Despite everything, its still you.',
@@ -103,6 +141,7 @@ describe('POST /blogs', () => {
 
     await api.post('/api/blogs')
       .send(new_blog)
+      .set({ Authorization: `Bearer ${token}` })
       .expect(201)
       .expect('Content-Type', /application\/json/)
       .expect((response) => {
@@ -118,16 +157,24 @@ describe('POST /blogs', () => {
 
     await api.post('/api/blogs')
       .send(new_blog)
+      .set({ Authorization: `Bearer ${token}` })
       .expect(400)
   })
 })
 
 describe('DELETE /blogs/:id', () => {
+  let token
+  beforeEach(async () => {
+    const response = await api.post('/api/login').send({ username: "validUser", password: "luis" })
+    token = response.body.token
+  })
+
   test('delete a single blog resource', async () => {
     const blogsBeforeDelete = await api.get('/api/blogs')
     const idToDelete = blogsBeforeDelete.body[0].id 
     
     await api.delete(`/api/blogs/${idToDelete}`)
+      .set({ Authorization: `Bearer ${token}` })
       .expect(204)
     
     const blogsAfterDelete = await api.get('/api/blogs')
