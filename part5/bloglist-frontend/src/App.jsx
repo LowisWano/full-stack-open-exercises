@@ -36,9 +36,14 @@ const App = () => {
     setPassword('')
   }
 
+  const clearNewBlogInputFields = () => {
+    setTitle('')
+    setAuthor('')
+    setUrl('')
+  }
+
   const handleLogin = async (event) => {
     event.preventDefault()
-    console.log('logging in with', username, password)
     try {
       const authenticatedUser = await loginService.login({ username, password })
       window.localStorage.setItem('loggedUser', JSON.stringify(authenticatedUser))
@@ -55,8 +60,22 @@ const App = () => {
     setUser(null)
   }
 
-  const handleCreateBlog = () => {
-
+  const handleCreateBlog = async (event) => {
+    event.preventDefault()
+    try {
+      const response = await blogService.createBlog({
+        title: title,
+        author: author,
+        url: url,
+      })
+      // concat response to blog state
+      console.log(response)
+      setBlogs(blogs.concat(response))
+      console.log("created blog successfully! will handle notif later")
+      clearNewBlogInputFields()
+    } catch (error) {
+      console.log("Failed! ", error.response.data.error)
+    }
   }
 
   if(user === null){
@@ -78,6 +97,7 @@ const App = () => {
         {user.name} logged in
         <button onClick={handleLogout}>logout</button>
       </p>
+
       <form onSubmit={handleCreateBlog}>
         <h1>Create New</h1>
         <p>
