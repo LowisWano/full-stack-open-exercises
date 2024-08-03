@@ -99,7 +99,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>blogs</h1>
+      <h1>Blogs</h1>
       <Notification
         message={notifMessage}
         notifType={notifType}
@@ -108,7 +108,7 @@ const App = () => {
         {user.name} logged in
         <button onClick={handleLogout}>logout</button>
       </p>
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
+      <Togglable buttonLabelBefore='create new blog' buttonLabelAfter='cancel' ref={blogFormRef}>
         <CreateBlog
           createNewBlog={createNewBlog}
         />
