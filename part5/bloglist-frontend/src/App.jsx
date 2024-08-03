@@ -122,7 +122,8 @@ const App = () => {
       </div>
     )
   }
-
+  console.log(blogs)
+  console.log(user)
   return (
     <div>
       <h1>Blogs</h1>
