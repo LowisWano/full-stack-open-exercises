@@ -33,7 +33,7 @@ const deleteBlog = async (blogToDeleteId) => {
 }
 
 export default {
-  setToken, 
+  setToken,
   getAllBlogs,
   createBlog,
   likeBlog,

@@ -21,7 +21,7 @@ const App = () => {
   useEffect(() => {
     blogService.getAllBlogs().then(blogs =>
       setBlogs( blogs )
-    )  
+    )
   }, [])
 
   useEffect(() => {
@@ -35,12 +35,12 @@ const App = () => {
 
   const blogFormRef = useRef()
 
-  const displayNotif = (type, message)=>{
-    setNotifType(type);
+  const displayNotif = (type, message) => {
+    setNotifType(type)
     setNotifMessage(message)
     setTimeout(() => {
       setNotifMessage(null)
-    }, 5000);
+    }, 5000)
   }
 
   const clearLoginInputFields = () => {
@@ -87,7 +87,7 @@ const App = () => {
     }
     try {
       const response = await blogService.likeBlog(likedBlog)
-      setBlogs(blogs.map(blog=>blog.id !== response.id ? blog: response))
+      setBlogs(blogs.map(blog => blog.id !== response.id ? blog: response))
     }catch (error){
       displayNotif('error', error.response.data.error)
     }
@@ -97,10 +97,10 @@ const App = () => {
     if(window.confirm(`Remove ${blogToBeDeleted.title} by ${blogToBeDeleted.author}?`)){
       try {
         await blogService.deleteBlog(blogToBeDeleted.id)
-        setBlogs(blogs.filter((blogObj)=>blogObj.id !== blogToBeDeleted.id))
+        setBlogs(blogs.filter((blogObj) => blogObj.id !== blogToBeDeleted.id))
         displayNotif('success', `Successfully deleted ${blogToBeDeleted.title} by ${blogToBeDeleted.author}`)
       } catch (error) {
-        displayNotif('error', error.response.data.error);
+        displayNotif('error', error.response.data.error)
       }
     }
   }
@@ -139,11 +139,13 @@ const App = () => {
           createNewBlog={createNewBlog}
         />
       </Togglable>
-      {blogs
-        .sort((a, b) => b.likes - a.likes)
-        .map(blog =>
-        <Blog key={blog.id} blog={blog} updateLikesBlog={updateLikesBlog} deleteBlog={deleteBlog} user={user}/>
-      )}
+      {
+        blogs
+          .sort((a, b) => b.likes - a.likes)
+          .map(blog =>
+            <Blog key={blog.id} blog={blog} updateLikesBlog={updateLikesBlog} deleteBlog={deleteBlog} user={user}/>
+          )
+      }
     </div>
   )
 }

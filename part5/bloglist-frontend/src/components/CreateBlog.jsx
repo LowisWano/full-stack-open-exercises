@@ -24,21 +24,21 @@ const CreateBlog = ({ createNewBlog }) => {
 
   return (
     <form onSubmit={handleCreateBlogSubmit}>
-        <h2>Create new blog</h2>
-        <p>
-          title: 
-          <input type='text' value={title} onChange={({ target }) => setTitle(target.value)}/>
-        </p>
-        <p>
-          author:
-          <input type='text' value={author} onChange ={({ target }) => setAuthor(target.value)}/>
-        </p>
-        <p>
-          url:
-          <input type='text' value={url} onChange ={({ target }) => setUrl(target.value)}/>
-        </p>
-        <button type='text'>create</button>
-      </form>
+      <h2>Create new blog</h2>
+      <p>
+        title:
+        <input type='text' value={title} onChange={({ target }) => setTitle(target.value)}/>
+      </p>
+      <p>
+        author:
+        <input type='text' value={author} onChange ={({ target }) => setAuthor(target.value)}/>
+      </p>
+      <p>
+        url:
+        <input type='text' value={url} onChange ={({ target }) => setUrl(target.value)}/>
+      </p>
+      <button type='text'>create</button>
+    </form>
   )
 }
 
