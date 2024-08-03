@@ -1,7 +1,6 @@
 import { useState } from 'react'
-import Togglable from "./Togglable"
 
-const Blog = ({ blog, updateLikesBlog }) => {
+const Blog = ({ blog, updateLikesBlog, deleteBlog, user }) => {
   const [visible, setVisible] = useState(false)
   const hideWhenVisible = { display: visible ? 'none' : '' }
   const showWhenVisible = { display: visible ? '' : 'none' }
@@ -14,6 +13,12 @@ const Blog = ({ blog, updateLikesBlog }) => {
     marginBottom: 5
   }
 
+  const deleteButton = () => {
+    return (
+      <button onClick={() => deleteBlog(blog)} >remove</button>
+    )
+  }
+
   return (
     <div style={blogStyle}>
       <div>
@@ -23,12 +28,13 @@ const Blog = ({ blog, updateLikesBlog }) => {
       </div>
 
       <div style={showWhenVisible}>
-        <p>{blog.url}</p>
+        <a href={blog.url}>{blog.url}</a>
         <p>
           likes: {blog.likes}
           <button onClick={() => updateLikesBlog(blog)}>like</button>
         </p>
         <p>{blog.user.name}</p>
+        { blog.user.username === user.username && deleteButton() }
       </div>
     </div>
   )

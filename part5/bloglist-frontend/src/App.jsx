@@ -72,6 +72,7 @@ const App = () => {
     blogFormRef.current.toggleVisibility()
     try {
       const response = await blogService.createBlog(newBlog)
+      console.log(response)
       setBlogs(blogs.concat(response))
       displayNotif('success', `a new blog ${response.title} by ${response.author} added`)
     } catch (error){
@@ -86,12 +87,21 @@ const App = () => {
     }
     try {
       const response = await blogService.likeBlog(likedBlog)
-      console.log(response)
       setBlogs(blogs.map(blog=>blog.id !== response.id ? blog: response))
-      displayNotif('success', `liked ${response.title}`)
     }catch (error){
-      console.log(error)
-      // displayNotif('error', error.response.data.error)
+      displayNotif('error', error.response.data.error)
+    }
+  }
+
+  const deleteBlog = async (blogToBeDeleted) => {
+    if(window.confirm(`Remove ${blogToBeDeleted.title} by ${blogToBeDeleted.author}?`)){
+      try {
+        await blogService.deleteBlog(blogToBeDeleted.id)
+        setBlogs(blogs.filter((blogObj)=>blogObj.id !== blogToBeDeleted.id))
+        displayNotif('success', `Successfully deleted ${blogToBeDeleted.title} by ${blogToBeDeleted.author}`)
+      } catch (error) {
+        displayNotif('error', error.response.data.error);
+      }
     }
   }
 
@@ -132,7 +142,7 @@ const App = () => {
       {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>
-        <Blog key={blog.id} blog={blog} updateLikesBlog={updateLikesBlog}/>
+        <Blog key={blog.id} blog={blog} updateLikesBlog={updateLikesBlog} deleteBlog={deleteBlog} user={user}/>
       )}
     </div>
   )
