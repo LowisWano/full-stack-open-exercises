@@ -27,17 +27,17 @@ const CreateBlog = ({ createNewBlog }) => {
       <h2>Create new blog</h2>
       <p>
         title:
-        <input type='text' value={title} onChange={({ target }) => setTitle(target.value)}/>
+        <input placeholder='title' type='text' value={title} onChange={({ target }) => setTitle(target.value)}/>
       </p>
       <p>
         author:
-        <input type='text' value={author} onChange ={({ target }) => setAuthor(target.value)}/>
+        <input placeholder='author' type='text' value={author} onChange ={({ target }) => setAuthor(target.value)}/>
       </p>
       <p>
         url:
-        <input type='text' value={url} onChange ={({ target }) => setUrl(target.value)}/>
+        <input placeholder='url' type='text' value={url} onChange ={({ target }) => setUrl(target.value)}/>
       </p>
-      <button type='text'>create</button>
+      <button type='submit'>create</button>
     </form>
   )
 }
