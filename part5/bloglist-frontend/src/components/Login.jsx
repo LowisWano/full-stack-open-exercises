@@ -9,7 +9,7 @@ const Login = ({ handleLogin, username, setUsername, password, setPassword }) =>
           <input type="text" name="Username" value={username} onChange={({ target }) => setUsername(target.value)}/>
         </p>
         <p>password
-          <input type="text" name="Password" value={password} onChange={({ target }) => setPassword(target.value)}/>
+          <input type="password" name="Password" value={password} onChange={({ target }) => setPassword(target.value)}/>
         </p>
         <button type="submit">login</button>
       </div>
