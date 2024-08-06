@@ -57,7 +57,7 @@ describe('Blog app', () => {
       await expect(page.getByText('a new blog blog_1 by luis added')).toBeVisible()
     })
 
-    describe.only('prepopulated with several other blogs', () => {
+    describe('prepopulated with several other blogs', () => {
       beforeEach(async ({ page }) => {
         await createBlog(page,'blog_2','Luis','http://localhost:5173')
         await createBlog(page,'blog_3','Andrei','http://localhost:5173')
@@ -103,6 +103,28 @@ describe('Blog app', () => {
         await expect(blogAfter.getByRole('button', { name: 'remove' })).not.toBeVisible()
       })
       
+      test('blogs are arranged in the order according to the likes', async({ page }) => {
+        test.setTimeout(120000)
+        const blog2 = page.locator('.blogItem').filter({ hasText: 'blog_2' })
+        const blog3 = page.locator('.blogItem').filter({ hasText: 'blog_3' })
+        const blog4 = page.locator('.blogItem').filter({ hasText: 'blog_4' })
+
+        await blog2.getByRole('button', { name: 'view' }).click()
+        await blog3.getByRole('button', { name: 'view' }).click()
+        await blog4.getByRole('button', { name: 'view' }).click()
+     
+        await blog3.getByRole('button', { name: 'like' }).click()
+        await blog4.getByRole('button', { name: 'like' }).click()
+        await blog4.getByRole('button', { name: 'like' }).click()
+
+        await expect(blog4).toContainText('likes: 2')
+        await expect(blog3).toContainText('likes: 1')
+        await expect(blog2).toContainText('likes: 0')
+
+        await expect(page.locator('.blogItem').first()).toContainText('blog_4')
+        await expect(page.locator('.blogItem').nth(1)).toContainText('blog_3')
+        await expect(page.locator('.blogItem').last()).toContainText('blog_2')
+      })
     })
 
 
