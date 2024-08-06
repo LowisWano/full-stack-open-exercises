@@ -1,0 +1,9 @@
+POST http://localhost:3001/api/blogs/ 
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1heW9pIiwiaWQiOiI2NmFiMmY5YjA5NzExZjI3NmRkYjZkMjMiLCJpYXQiOjE3MjI1Njc5NTF9.lT85BXc4VnYmAGO52j0Q_vaFTN5iBzs2P3JNOBcinWA
+
+{
+  "title": "Crazy ass title2",
+  "author": "the title maker",
+  "url": "This is a url as well!"
+}
