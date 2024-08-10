@@ -17,7 +17,8 @@ const AnecdoteList = () => {
   const result = useQuery({
     queryKey: ['anecdotes'],
     queryFn: getAnecdotes,
-    retry: 1
+    retry: 1,
+    refetchOnWindowFocus: false
   })
 
   if(result.isLoading) {
@@ -31,7 +32,7 @@ const AnecdoteList = () => {
   const anecdotes = result.data
 
   const handleVote = (anecdote) => {
-    notifyMessage(notifDispatch, anecdote.content)
+    notifyMessage(notifDispatch, `you voted '${anecdote.content}'`)
 
     voteAnecdoteMutation.mutate({
       ...anecdote,

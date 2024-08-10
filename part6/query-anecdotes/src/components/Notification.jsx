@@ -5,8 +5,6 @@ const Notification = () => {
   
   const [notification, notifDispatch] = useContext(NotificationContext)
 
-  console.log(notification)
-
   if(notification === null){
     return null
   }

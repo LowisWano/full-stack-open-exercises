@@ -4,7 +4,6 @@ import { createContext, useContext, useReducer } from 'react'
 const notificationReducer = (state, action) => {
   switch (action.type){
     case 'NOTIFY': {
-      console.log(action.payload)
       return action.payload
     }
     default:
@@ -37,7 +36,7 @@ export const useNotifDispatch = () => {
 export const notifyMessage = (notifDispatch, content) => {
   notifDispatch({
     type: 'NOTIFY',
-    payload: `you voted '${content}'`
+    payload: content
   })
   
   setTimeout(() => {
