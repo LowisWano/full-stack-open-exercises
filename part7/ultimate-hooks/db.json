@@ -1,0 +1,43 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "instead of having a service folder for axios requesting, make use of custom useResource hooks instead",
+      "id": 3
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "Luis Andrei Ouano",
+      "number": "123-123456",
+      "id": 3
+    },
+    {
+      "name": "andrei",
+      "number": "321-654321",
+      "id": 4
+    },
+    {
+      "name": "ouano",
+      "number": "123-123456",
+      "id": 5
+    }
+  ]
+}
