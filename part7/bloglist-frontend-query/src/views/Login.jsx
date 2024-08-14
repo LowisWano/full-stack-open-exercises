@@ -2,14 +2,18 @@ import loginService from "../services/loginService";
 import blogService from "../services/blogService";
 
 import { useRef } from "react";
-import { useUserDispatch } from "../context/userContext";
 import { useNavigate } from 'react-router-dom'
+import { useUserDispatch } from "../context/userContext";
+import { useNotify } from "../context/notificationContext";
+import { useAuthHooks } from "../hooks/authHooks";
 
 const Login = () => {
   const usernameRef = useRef()
   const passwordRef = useRef()
   const userDispatch = useUserDispatch()
   const navigate = useNavigate()
+  const notif = useNotify()
+  const auth = useAuthHooks()
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -24,13 +28,11 @@ const Login = () => {
         JSON.stringify(authenticatedUser),
       );
       blogService.setToken(authenticatedUser.token);
-      userDispatch(authenticatedUser);
-      // notif.displayNotif("success", "Login Successfully");
-      console.log("success!")
+      auth.loginUser(authenticatedUser)
+      notif.displayNotif("success", "Login Successfully");
       navigate('/')
     } catch (error) {
-      // notif.displayNotif("error", error.response.data.error);
-      console.log("error")
+      notif.displayNotif("error", error.response.data.error);
     }
   };
 
