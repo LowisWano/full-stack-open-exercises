@@ -1,11 +1,11 @@
-import loginService from "../services/loginService";
-import blogService from "../services/blogService";
+import loginService from "../../services/loginService";
+import blogService from "../../services/blogService";
 
 import { useRef } from "react";
 import { useNavigate } from 'react-router-dom'
-import { useUserDispatch } from "../context/userContext";
-import { useNotify } from "../context/notificationContext";
-import { useAuthHooks } from "../hooks/authHooks";
+import { useUserDispatch } from "../../context/userContext";
+import { useNotify } from "../../context/notificationContext";
+import { useAuthHooks } from "../../hooks/authHooks";
 
 const Login = () => {
   const usernameRef = useRef()

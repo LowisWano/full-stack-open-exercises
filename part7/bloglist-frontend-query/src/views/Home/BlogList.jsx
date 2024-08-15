@@ -1,5 +1,5 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
-import blogService from '../services/blogService'
+import blogService from '../../services/blogService'
 
 const BlogList = () => {
   const blogsQuery = useQuery({
@@ -15,6 +15,7 @@ const BlogList = () => {
   const blogs = blogsQuery.data
 
   return (
+    
     <div>
       {blogs
         .sort((a, b) => b.likes - a.likes)

@@ -4,8 +4,8 @@ import { Routes, Route, Link, useMatch, useNavigate } from 'react-router-dom'
 import { useUserDispatch, useUserValue } from './context/userContext'
 
 // components
-import BlogList from './views/BlogList'
-import Login from './views/Login'
+import Home from './views/Home/Home'
+import Login from './views/Login/Login'
 import Notification from './components/Notification'
 import Navbar from './components/Navbar'
 
@@ -15,7 +15,6 @@ import { useAuthHooks } from './hooks/authHooks'
 const App = () => {
   const navigate = useNavigate()
   const user = useUserValue()
-  const userDispatch = useUserDispatch()
   const auth = useAuthHooks()
 
   useEffect(() => {
@@ -32,10 +31,11 @@ const App = () => {
   
   return (
     <>
-      {user && <Navbar/>} 
+      {user && <Navbar/>}
+      <Notification/>
       <Routes>
         <Route path='/login' element={ <Login/> } />
-        <Route path='/' element={ <BlogList/> } />
+        <Route path='/' element={ <Home/> } />
       </Routes>
     </>
   )
