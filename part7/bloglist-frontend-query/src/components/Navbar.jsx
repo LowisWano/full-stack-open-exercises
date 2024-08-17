@@ -19,6 +19,7 @@ const Navbar = () => {
     <div>
       <Link to='/'>blogs</Link>
       <Link to='/users'>users</Link>
+      <span>{user.name} logged in</span>
       <button onClick={handleLogout} >logout</button>
     </div>
   )
