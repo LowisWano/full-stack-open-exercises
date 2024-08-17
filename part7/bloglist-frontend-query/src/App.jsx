@@ -8,7 +8,7 @@ import Login from './views/Login/Login'
 import Blog from './views/Blog/Blog'
 import Notification from './components/Notification'
 import Navbar from './components/Navbar'
-
+import Users from './views/Users/Users'
 
 // custom 
 import { useAuthHooks } from './hooks/authHooks'
@@ -41,7 +41,7 @@ const App = () => {
         <Route element={<ProtectedRoutes/>}>
             <Route path='/' element={ <Home/> } />
             <Route path='/blogs/:id' element={ <Blog/> } />
-            {/* Redirects to home page if unidentified route is placed in the url, optionally, we could also redirect it to a 'page not found' view */}
+            <Route path='/users' element={ <Users/> } />
             <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>

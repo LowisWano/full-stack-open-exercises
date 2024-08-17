@@ -1,5 +1,6 @@
 import { useUserValue } from "../context/userContext";
 import { useAuthHooks } from "../hooks/authHooks";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const auth = useAuthHooks()
@@ -16,6 +17,8 @@ const Navbar = () => {
   
   return (
     <div>
+      <Link to='/'>blogs</Link>
+      <Link to='/users'>users</Link>
       <button onClick={handleLogout} >logout</button>
     </div>
   )

@@ -8,3 +8,4 @@
 - Styling
 - Toggling of create new blog form after a new blog is added
 - We could optionally setup a Layout.jsx component to place the navbar, notification, and other universal UI related components
+- Redirects to home page if unidentified route is placed in the url, optionally, we could also redirect it to a 'page not found' view 

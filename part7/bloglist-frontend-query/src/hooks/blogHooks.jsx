@@ -1,3 +1,4 @@
+import { useNavigate } from 'react-router-dom'
 import { useNotify } from '../context/notificationContext'
 import blogService from '../services/blogService'
 import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
@@ -5,6 +6,7 @@ import { useQuery, useQueryClient, useMutation } from '@tanstack/react-query'
 export const useBlogHooks = () => {
   const queryClient = useQueryClient()
   const { displayNotif } = useNotify()
+  const navigate = useNavigate()
 
   const blogsQuery = useQuery({
     queryKey: ['blogs'],
@@ -44,6 +46,16 @@ export const useBlogHooks = () => {
     }
   })
 
+  const deleteBlogMutation = useMutation({
+    mutationFn: blogService.deleteBlog,
+    onSuccess: (response) => {
+      queryClient.invalidateQueries({ queryKey: ['blogs'] });
+    },
+    onError: (error) => {
+      displayNotif("error", error.response.data.error);
+    }
+  })
+
   const getQueryData = () => {
     return blogsQuery
   }
@@ -60,9 +72,21 @@ export const useBlogHooks = () => {
     updateBlogMutation.mutate(likedBlog);
   }
 
+  const deleteBlog = async (blogToBeDeleted) => {
+    if (window.confirm(`Remove ${blogToBeDeleted.title} by ${blogToBeDeleted.author}?`)) {
+      deleteBlogMutation.mutate(blogToBeDeleted.id)
+      displayNotif(
+        "success",
+        `Successfully deleted ${blogToBeDeleted.title}`,
+      );
+      navigate('/')
+    }
+  };
+
   return {
     getQueryData,
     createNewBlog,
-    updateLikesBlog
+    updateLikesBlog,
+    deleteBlog
   }
 }

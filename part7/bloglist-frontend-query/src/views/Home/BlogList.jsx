@@ -21,7 +21,7 @@ const BlogList = () => {
       {blogs
         .toSorted((a, b) => b.likes - a.likes)
         .map((blog) => (
-          <Link style={linkStyle} key={blog.id} to={`/blogs/${blog.id}`} >{blog.title}</Link>
+          <Link style={linkStyle} key={blog.id} to={`/blogs/${blog.id}`} >{blog.title} {blog.author}</Link>
         ))}
     </div>
   )
