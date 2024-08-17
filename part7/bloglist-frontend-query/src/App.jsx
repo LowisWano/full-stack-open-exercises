@@ -9,6 +9,7 @@ import Blog from './views/Blog/Blog'
 import Notification from './components/Notification'
 import Navbar from './components/Navbar'
 import Users from './views/Users/Users'
+import User from './views/User/User'
 
 // custom 
 import { useAuthHooks } from './hooks/authHooks'
@@ -42,6 +43,7 @@ const App = () => {
             <Route path='/' element={ <Home/> } />
             <Route path='/blogs/:id' element={ <Blog/> } />
             <Route path='/users' element={ <Users/> } />
+            <Route path='/users/:id' element={ <User/> } />
             <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>
