@@ -7,14 +7,9 @@ const Home = () => {
   const blogFormRef = useRef()
   return (
     <div>
-      <Togglable 
-        buttonLabelBefore="create new blog"
-        buttonLabelAfter="cancel"
-        ref={blogFormRef}
-      >
-        <CreateBlog/>
+      <Togglable buttonLabelBefore="create new blog" buttonLabelAfter="cancel" ref={blogFormRef}>
+        <CreateBlog blogFormRef={blogFormRef} />
       </Togglable>
-      
       <BlogList/>
     </div>
   )

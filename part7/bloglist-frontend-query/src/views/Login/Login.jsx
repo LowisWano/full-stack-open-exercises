@@ -1,9 +1,8 @@
 import loginService from "../../services/loginService";
 import blogService from "../../services/blogService";
 
-import { useEffect, useRef } from "react";
-import { useLocation, useNavigate } from 'react-router-dom'
-import { useUserValue } from "../../context/userContext";
+import { useRef } from "react";
+import { useNavigate } from 'react-router-dom'
 import { useNotify } from "../../context/notificationContext";
 import { useAuthHooks } from "../../hooks/authHooks";
 
@@ -14,8 +13,8 @@ const Login = () => {
 
   // hooks
   const navigate = useNavigate()
-  const notif = useNotify()
-  const auth = useAuthHooks()
+  const { displayNotif } = useNotify()
+  const { loginUser } = useAuthHooks()
 
   const handleLogin = async (event) => {
     event.preventDefault();
@@ -29,11 +28,11 @@ const Login = () => {
         JSON.stringify(authenticatedUser),
       );
       blogService.setToken(authenticatedUser.token);
-      auth.loginUser(authenticatedUser)
-      notif.displayNotif("success", "Login Successfully");
+      loginUser(authenticatedUser)
+      displayNotif("success", "Login Successfully");
       navigate('/')
     } catch (error) {
-      notif.displayNotif("error", error.response.data.error);
+      displayNotif("error", error.response.data.error);
     }
   };
 

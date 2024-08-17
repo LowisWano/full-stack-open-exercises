@@ -5,6 +5,7 @@ const Blog = () => {
   const blogsQuery = useBlogHooks().getQueryData()
   const blogs = blogsQuery.data
   const id = useParams().id
+  const { updateLikesBlog } = useBlogHooks()
   
   if(blogsQuery.isLoading){
     return <div>Loading data ...</div>
@@ -15,7 +16,10 @@ const Blog = () => {
 
   return (
     <>
-      <h1>hello</h1>
+      <h1>{blog.title}</h1>
+      <a href={blog.url}>{blog.url}</a>
+      <p>{blog.likes} likes <button onClick={ () => updateLikesBlog(blog) } >like</button></p>
+      <p>added by {blog.user.name}</p>
     </>
   )
 }

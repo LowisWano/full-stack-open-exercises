@@ -1,43 +1,27 @@
 import { useRef } from "react";
-import { useMutation, useQueryClient } from '@tanstack/react-query'
-import blogService from "../../services/blogService";
-import { useNotify } from "../../context/notificationContext";
+import { useBlogHooks } from "../../hooks/blogHooks";
 
-const CreateBlog = () => {
-
+const CreateBlog = ({ blogFormRef }) => {
   const titleRef = useRef()
   const authorRef = useRef()
   const urlRef = useRef()
+  const { createNewBlog } = useBlogHooks()
 
-  const notif = useNotify()
-  const queryClient = useQueryClient()
-  
-  const newBlogMutation = useMutation({
-    mutationFn: blogService.createBlog,
-    onSuccess: (newBlog) => {
-      const blogs = queryClient.getQueryData(['blogs']);
-      queryClient.setQueryData(['blogs'], blogs.concat(newBlog));
-      notif.displayNotif(
-        "success",
-        `a new blog ${newBlog.title} by ${newBlog.author} added`,
-      );
-      titleRef.current.value = "";
-      authorRef.current.value = "";
-      urlRef.current.value = "";
-    },
-    onError: (error) => {
-      notif.displayNotif("error", error.response.data.error);
-    }
-  })
-
-  // reminder to use tests instead of manually inputting forms
   const handleCreateBlogSubmit = (event) => {
     event.preventDefault()
-    newBlogMutation.mutate({
-      title: titleRef.current.value,
-      author: authorRef.current.value,
-      url: urlRef.current.value
-    })
+    createNewBlog(
+      {
+        title: titleRef.current.value,
+        author: authorRef.current.value,
+        url: urlRef.current.value
+      },
+      () => {
+        titleRef.current.value = "";
+        authorRef.current.value = "";
+        urlRef.current.value = "";
+        blogFormRef.current.toggleVisibility()
+      }
+    )
   }
 
   return (

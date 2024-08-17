@@ -1,6 +1,6 @@
 // react hooks
 import { useEffect } from 'react'
-import { Routes, Route, useNavigate, useLocation } from 'react-router-dom'
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom'
 
 // components
 import Home from './views/Home/Home'
@@ -31,16 +31,18 @@ const App = () => {
     }
   }, [])
 
-
   return (
     <>
       <Navbar/>
       <Notification/>
+      <h1>blog app</h1>
       <Routes>
         <Route path='/login' element={ <Login/> } />
         <Route element={<ProtectedRoutes/>}>
             <Route path='/' element={ <Home/> } />
             <Route path='/blogs/:id' element={ <Blog/> } />
+            {/* Redirects to home page if unidentified route is placed in the url, optionally, we could also redirect it to a 'page not found' view */}
+            <Route path="*" element={<Navigate to="/" />} />
         </Route>
       </Routes>
     </>
