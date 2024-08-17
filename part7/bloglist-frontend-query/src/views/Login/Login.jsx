@@ -1,23 +1,24 @@
 import loginService from "../../services/loginService";
 import blogService from "../../services/blogService";
 
-import { useRef } from "react";
-import { useNavigate } from 'react-router-dom'
-import { useUserDispatch } from "../../context/userContext";
+import { useEffect, useRef } from "react";
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useUserValue } from "../../context/userContext";
 import { useNotify } from "../../context/notificationContext";
 import { useAuthHooks } from "../../hooks/authHooks";
 
 const Login = () => {
+  // refs
   const usernameRef = useRef()
   const passwordRef = useRef()
-  const userDispatch = useUserDispatch()
+
+  // hooks
   const navigate = useNavigate()
   const notif = useNotify()
   const auth = useAuthHooks()
 
   const handleLogin = async (event) => {
     event.preventDefault();
-
     try {
       const authenticatedUser = await loginService.login({
         username: usernameRef.current.value,

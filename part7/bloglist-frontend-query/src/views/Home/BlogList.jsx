@@ -1,26 +1,27 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import blogService from '../../services/blogService'
+import { Link } from 'react-router-dom'
+import { useBlogHooks } from '../../hooks/blogHooks'
 
 const BlogList = () => {
-  const blogsQuery = useQuery({
-    queryKey: ['blogs'],
-    queryFn: blogService.getAllBlogs,
-    refetchOnWindowFocus: false
-  })
-
+  const blogsQuery = useBlogHooks().getQueryData()
+  const blogs = blogsQuery.data
+  const linkStyle = {
+    display: 'block',
+    margin: '5px'
+  }
+  
   if(blogsQuery.isLoading){
     return <div>Loading data ...</div>
   }
-
-  const blogs = blogsQuery.data
 
   return (
     
     <div>
       {blogs
-        .sort((a, b) => b.likes - a.likes)
+        .toSorted((a, b) => b.likes - a.likes)
         .map((blog) => (
-          <p key={blog.title} >{blog.title}</p>
+          <Link style={linkStyle} key={blog.id} to={`/blogs/${blog.id}`} >{blog.title}</Link>
         ))}
     </div>
   )

@@ -8,9 +8,10 @@ const CreateBlog = () => {
   const titleRef = useRef()
   const authorRef = useRef()
   const urlRef = useRef()
-  
+
   const notif = useNotify()
   const queryClient = useQueryClient()
+  
   const newBlogMutation = useMutation({
     mutationFn: blogService.createBlog,
     onSuccess: (newBlog) => {
@@ -29,6 +30,7 @@ const CreateBlog = () => {
     }
   })
 
+  // reminder to use tests instead of manually inputting forms
   const handleCreateBlogSubmit = (event) => {
     event.preventDefault()
     newBlogMutation.mutate({

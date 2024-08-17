@@ -1,8 +1,10 @@
-# React + Vite
-
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+# TO-DO
+- Implement individual blog view
+  - I'm concerned that I can't go to other links when logged in due to the code within the useEffect hook.
+- Like and delete feature for each blog
+  - Make a createBlog.test.js to automate tests
+- User view
+- Individual user view
+- Navbar
+- Comments feature
+- Styling

@@ -1,15 +1,19 @@
-import { useUserDispatch } from "../context/userContext";
+import { useUserValue } from "../context/userContext";
 import { useAuthHooks } from "../hooks/authHooks";
 
 const Navbar = () => {
-  const userDispatch = useUserDispatch()
   const auth = useAuthHooks()
+  const user = useUserValue()
 
   const handleLogout = () => {
     window.localStorage.removeItem("loggedUser");
     auth.logoutUser()
   };
 
+  if(!user){
+    return null
+  }
+  
   return (
     <div>
       <button onClick={handleLogout} >logout</button>
