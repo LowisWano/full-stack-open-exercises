@@ -14,7 +14,7 @@ const Blog = () => {
   }
 
   const blog = blogs.find(b => b.id === id)
-  console.log(blog)
+  console.log(blog.comments)
   return (
     <>
       <h1>{blog.title} {blog.author}</h1>
