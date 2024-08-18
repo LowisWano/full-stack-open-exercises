@@ -10,7 +10,7 @@ const User = () => {
   }
 
   const user = users.find((user) => user.id === id)
-
+  console.log(user)
   return (
     <>
       <h1>{user.name}</h1>

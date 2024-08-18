@@ -1,5 +1,4 @@
 import loginService from "../../services/loginService";
-import blogService from "../../services/blogService";
 
 import { useRef } from "react";
 import { useNavigate } from 'react-router-dom'
@@ -27,7 +26,6 @@ const Login = () => {
         "loggedUser",
         JSON.stringify(authenticatedUser),
       );
-      blogService.setToken(authenticatedUser.token);
       loginUser(authenticatedUser)
       displayNotif("success", "Login Successfully");
       navigate('/')

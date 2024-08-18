@@ -14,7 +14,7 @@ const BlogList = () => {
   if(blogsQuery.isLoading){
     return <div>Loading data ...</div>
   }
-
+  console.log(blogs)
   return (
     
     <div>

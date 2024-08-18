@@ -14,7 +14,7 @@ const Blog = () => {
   }
 
   const blog = blogs.find(b => b.id === id)
-
+  console.log(blog)
   return (
     <>
       <h1>{blog.title} {blog.author}</h1>
@@ -22,6 +22,14 @@ const Blog = () => {
       <p>{blog.likes} likes <button onClick={() => updateLikesBlog(blog)} >like</button></p>
       <p>added by {blog.user.name}</p>
       { user.username === blog.user.username && <button onClick={() => deleteBlog(blog)} >remove</button>}
+      <h3>comments</h3>
+      <ul>
+        {
+          blog.comments.map((comment) => (
+            <li key={comment.id} >{comment.content}</li>
+          ))
+        }
+      </ul>
     </>
   )
 }
