@@ -6,7 +6,7 @@ import Togglable from "../../components/Togglable"
 const Home = () => {
   const blogFormRef = useRef()
   return (
-    <div>
+    <div className="flex justify-center items-center flex-col">
       <Togglable buttonLabelBefore="create new blog" buttonLabelAfter="cancel" ref={blogFormRef}>
         <CreateBlog blogFormRef={blogFormRef} />
       </Togglable>

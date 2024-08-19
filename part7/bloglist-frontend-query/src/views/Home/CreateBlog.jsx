@@ -25,34 +25,33 @@ const CreateBlog = ({ blogFormRef }) => {
   }
 
   return (
-    <form onSubmit={handleCreateBlogSubmit}>
-      <h2>Create new blog</h2>
-      <p>
-        title:
-        <input
-          placeholder="title"
-          type="text"
-          ref={titleRef}
-        />
-      </p>
-      <p>
-        author:
-        <input
-          placeholder="author"
-          type="text"
-          ref={authorRef}
-        />
-      </p>
-      <p>
-        url:
-        <input
-          placeholder="url"
-          type="text"
-          ref={urlRef}
-        />
-      </p>
-      <button type="submit">create</button>
-    </form>
+    <>
+      <div className="card bg-base-100 w-full max-w-screen-sm shrink-0 shadow-2xl">
+        <form className="card-body" onSubmit={handleCreateBlogSubmit}>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Title</span>
+            </label>
+            <input placeholder="title" type="text" ref={titleRef} className="input input-bordered" required />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Author</span>
+            </label>
+            <input placeholder="author name" type="text" ref={authorRef} className="input input-bordered" required />
+          </div>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">URL</span>
+            </label>
+            <input placeholder="url" type="text" ref={urlRef} className="input input-bordered" required />
+          </div>
+          <div className="form-control mt-6">
+            <button type="submit" className="btn btn-success">Create</button>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }
 
