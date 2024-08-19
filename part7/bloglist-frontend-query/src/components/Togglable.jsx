@@ -18,7 +18,7 @@ const Togglable = forwardRef((props, refs) => {
   });
 
   return (
-    <div>
+    <div className="m-6">
       <div>
         <button className="btn btn-primary" style={hideWhenVisible} onClick={toggleVisibility}>
           {props.buttonLabelBefore}

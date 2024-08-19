@@ -48,15 +48,15 @@ const Login = () => {
           <form className="card-body" onSubmit={handleLogin}>
             <div className="form-control">
               <label className="label">
-                <span className="label-text">Email</span>
+                <span className="label-text">Username</span>
               </label>
-              <input type="text" name="Username" data-testid="username" ref={usernameRef} className="input input-bordered" required />
+              <input type="text" name="Username" data-testid="username" ref={usernameRef} className="input input-bordered"/>
             </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Password</span>
               </label>
-              <input type="password" name="Password" data-testid="password" ref={passwordRef} className="input input-bordered" required />
+              <input type="password" name="Password" data-testid="password" ref={passwordRef} className="input input-bordered"/>
               <label className="label">
                 <a href="#" className="label-text-alt link link-hover">Forgot password?</a>
               </label>

@@ -17,20 +17,23 @@ const BlogList = () => {
   console.log(blogs)
   return (
     
-    <div className='flex gap-5'>
-      {blogs
-        .toSorted((a, b) => b.likes - a.likes)
-        .map((blog) => (
-          <div className="card bg-base-100 w-96 shadow-xl" key={blog.id}>
-            <div className="card-body">
-              <h2 className="card-title">{blog.title}</h2>
-              <p>Author: {blog.author}</p>
-              <div className="card-actions justify-end">
-                <button className="btn btn-primary"><Link style={linkStyle} to={`/blogs/${blog.id}`} >view</Link></button>
+    <div className='flex gap-5 flex-col'>
+      <h1 className='text-center font-bold text-4xl' >Blogs</h1>
+      <div className='flex gap-5 m-5'>
+        {blogs
+          .toSorted((a, b) => b.likes - a.likes)
+          .map((blog) => (
+            <div className="card bg-base-100 w-96 shadow-xl" key={blog.id}>
+              <div className="card-body ">
+                <h2 className="card-title">{blog.title}</h2>
+                <p>Author: {blog.author}</p>
+                <div className="card-actions justify-end">
+                  <button className="btn btn-primary"><Link style={linkStyle} to={`/blogs/${blog.id}`} >view</Link></button>
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
+      </div>
     </div>
   )
 }
