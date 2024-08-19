@@ -36,7 +36,6 @@ const App = () => {
     <>
       <Navbar/>
       <Notification/>
-      <h1>blog app</h1>
       <Routes>
         <Route path='/login' element={ <Login/> } />
         <Route element={<ProtectedRoutes/>}>
