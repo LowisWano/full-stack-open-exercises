@@ -56,6 +56,17 @@ export const useBlogHooks = () => {
     }
   })
 
+  const commentBlogMutation = useMutation({
+    mutationFn: blogService.commentBlog,
+    onSuccess: (comment) => {
+      const blogs = queryClient.getQueryData(['blogs'])
+      queryClient.setQueryData(['blogs'], blogs.map(blog => blog.id !== comment.blog.id ? blog : { ...blog, comments: blog.comments.concat(comment)}))
+    },
+    onError: (error) => {
+      displayNotif("error", error.response.data.error);
+    }
+  })
+
   const getQueryData = () => {
     return blogsQuery
   }
@@ -83,10 +94,15 @@ export const useBlogHooks = () => {
     }
   };
 
+  const commentBlog = (comment, id) => {
+    commentBlogMutation.mutate({ content: comment, blogId: id })
+  }
+
   return {
     getQueryData,
     createNewBlog,
     updateLikesBlog,
-    deleteBlog
+    deleteBlog,
+    commentBlog
   }
 }

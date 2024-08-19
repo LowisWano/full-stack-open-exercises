@@ -16,8 +16,6 @@ blogsRouter.get('/:id', async (request, response) => {
   .populate('user', { username: 1, name: 1, id: 1})
   .populate('comments', { content: 1, id: 1 });
 
-  console.log(blog)
-
   if(blog){
     response.json(blog)
   }else {
@@ -38,7 +36,6 @@ blogsRouter.post('/', middleware.userExtractor, async (request, response) => {
   
   const result = await blog.save()
   user.blogs = user.blogs.concat(blog._id)
-  console.log(user)
   await user.save()
   response.status(201).json(result)
 })

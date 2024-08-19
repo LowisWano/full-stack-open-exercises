@@ -1,6 +1,7 @@
 import { useParams } from "react-router-dom"
 import { useBlogHooks } from '../../hooks/blogHooks'
 import { useUserValue } from "../../context/userContext"
+import Comments from "./Comments"
 
 const Blog = () => {
   const blogsQuery = useBlogHooks().getQueryData()
@@ -23,13 +24,7 @@ const Blog = () => {
       <p>added by {blog.user.name}</p>
       { user.username === blog.user.username && <button onClick={() => deleteBlog(blog)} >remove</button>}
       <h3>comments</h3>
-      <ul>
-        {
-          blog.comments.map((comment) => (
-            <li key={comment.id} >{comment.content}</li>
-          ))
-        }
-      </ul>
+      <Comments blog={blog} />
     </>
   )
 }
