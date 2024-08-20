@@ -13,17 +13,27 @@ const Comments = ({ blog }) => {
 
   return (
     <>
-      <form onSubmit={handleCommentSubmit} >
-        <input type="text" ref={commentRef} />
-        <button>add comment</button>
-      </form>
-      <ul>
-        {
-          blog.comments.map((comment) => (
-            <li key={comment.id} >{comment.content}</li>
-          ))
-        }
-      </ul>
+      <div className="flex flex-col gap-2" >
+        <h3 className="font-bold text-2xl">comments</h3>
+        <form onSubmit={handleCommentSubmit} className="space-x-2">
+          <input className="input input-bordered input-sm w-full max-w-xs" type="text" ref={commentRef} />
+          <button className="btn btn-sm" >add comment</button>
+        </form>
+        <div className="flex flex-col justify-center items-center gap-4 p-3">
+          {
+            blog.comments.map((comment) => (
+              <div key={comment.id}  className="card bg-base-100 w-full shadow-md">
+                <div className="flex justify-center p-4">
+                  <p>
+                    {comment.content}
+                  </p>
+                </div>
+              </div>
+        
+            ))
+          }
+        </div>
+      </div>
     </>
   )
 }
