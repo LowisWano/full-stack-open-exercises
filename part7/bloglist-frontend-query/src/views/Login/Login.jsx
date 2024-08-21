@@ -36,15 +36,15 @@ const Login = () => {
 
   return (
     <div className="hero bg-base-200 min-h-screen">
-      <div className="hero-content flex-col lg:flex-row-reverse">
+      <div className="hero-content flex-col lg:flex-row-reverse gap-9">
         <div className="text-center lg:text-left">
-          <h1 className="text-5xl font-bold">Login</h1>
+          <h1 className="text-5xl font-bold">Blogify</h1>
           <p className="py-6">
-            Provident cupiditate voluptatem et in. Quaerat fugiat ut assumenda excepturi exercitationem
-            quasi. In deleniti eaque aut repudiandae et a id nisi.
+            Welcome back to Blogify! Please log in to continue exploring and sharing your thoughts. 
+            If you don’t have an account, <a href="#" className="underline text-blue-600 hover:text-blue-800">sign up here</a> to join our community.
           </p>
         </div>
-        <div className="card bg-base-100 w-full max-w-screen-sm shrink-0 shadow-2xl">
+        <div className="card bg-base-100 w-full max-w-xl shrink-0 shadow-2xl">
           <form className="card-body" onSubmit={handleLogin}>
             <div className="form-control">
               <label className="label">

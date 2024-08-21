@@ -26,7 +26,9 @@ const Togglable = forwardRef((props, refs) => {
       </div>
       <div style={showWhenVisible}>
         {props.children}
-        <button className="btn btn-error" onClick={toggleVisibility}>{props.buttonLabelAfter}</button>
+        <div className="flex justify-center m-5">
+          <button className="btn btn-error" onClick={toggleVisibility}>{props.buttonLabelAfter}</button>
+        </div>
       </div>
     </div>
   );

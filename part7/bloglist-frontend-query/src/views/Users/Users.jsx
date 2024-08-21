@@ -12,27 +12,33 @@ const Users = () => {
   console.log(users)
   return (
     <>
-      <h1>Users</h1>
-      <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th>blogs created</th>
-          </tr>
-        </thead>
-        <tbody>
-            {
-              users.map((user) => (
-                <tr key={user.id} >
-                  <td>
-                    <Link to={`/users/${user.id}`} >{user.name}</Link>
-                  </td>
-                  <td>{user.blogs.length}</td>
-                </tr>
-              ))
-            }
-        </tbody>
-      </table>
+      <div className='flex justify-center items-center flex-col p-10 gap-7  '>
+        <h1 className='text-center font-bold text-4xl'>Users</h1>
+        <div className="overflow-x-auto">
+          <table className="table table-zebra text-base">
+            {/* head */}
+            <thead className="text-base" >
+              <tr>
+              <th>users</th>
+              <th>blogs created</th>
+              </tr>
+            </thead>
+            <tbody>
+              {/* row 1 */}
+              {
+                users.map((user) => (
+                  <tr key={user.id} >
+                    <td>
+                      <Link to={`/users/${user.id}`} >{user.name}</Link>
+                    </td>
+                    <td>{user.blogs.length}</td>
+                  </tr>
+                ))
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
     </>
   )
 }
