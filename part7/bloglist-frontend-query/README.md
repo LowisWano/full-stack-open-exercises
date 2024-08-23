@@ -1,12 +1,4 @@
 # TO-DO
-- Like and delete feature for each blog
-  - Make a createBlog.test.js to automate tests
-- User view
-- Individual user view
-- Navbar
-- Comments feature
-- Styling
-- Toggling of create new blog form after a new blog is added
+- Create user page
 - We could optionally setup a Layout.jsx component to place the navbar, notification, and other universal UI related components
-- Redirects to home page if unidentified route is placed in the url, optionally, we could also redirect it to a 'page not found' view 
-- Server is down page for frontend in case if backend is not responding
+- 'Server is down' page for frontend in case if backend is not responding
