@@ -1,3 +1,26 @@
+import { isNotNumber } from "./utils/isNotNumber";
+
+interface userInput {
+  target: number;
+  schedule: number[];
+}
+
+const parseArguments = (args: string[]): userInput => {
+  if (args.length < 4) throw new Error('Not enough arguments');
+
+  const target = Number(args[2]);
+  const schedule = args.slice(3).map((arg) => Number(arg));
+  
+  if(isNotNumber(target) || schedule.some((arg) => isNotNumber(arg))){
+    throw new Error('Provided values were not numbers!');
+  }
+
+  return {
+    target,
+    schedule
+  }
+}
+
 interface exerciseStatistics { 
   periodLength: number;
   trainingDays: number;
@@ -25,7 +48,7 @@ const calculateExercises = (schedule: number[], target: number): exerciseStatist
   const average: number = schedule.reduce((total, curr) => total + curr) / schedule.length
 
   const statistics: exerciseStatistics = {
-    periodLength: 7,
+    periodLength: schedule.length,
     trainingDays: daysActive,
     success: daysActive === schedule.length ? true: false,
     rating: rating,
@@ -37,4 +60,11 @@ const calculateExercises = (schedule: number[], target: number): exerciseStatist
   return statistics;
 }
 
-console.log(calculateExercises([3, 0, 2, 4.5, 0, 3, 1], 2))
+try{
+  const { target, schedule } = parseArguments(process.argv);
+  console.log(calculateExercises(schedule, target))
+}catch (error: unknown){
+  if(error instanceof Error){
+    console.log(`Something bad happened. Error: ${error.message}`)
+  }
+}

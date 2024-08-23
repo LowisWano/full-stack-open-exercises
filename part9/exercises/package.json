@@ -5,7 +5,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "ts-node": "ts-node",
-    "calculateExercises": "npm run ts-node -- exerciseCalculator.ts"
+    "calculateExercises": "npm run ts-node -- exerciseCalculator.ts",
+    "calculateBmi": "npm run ts-node -- bmiCalculator.ts"
   },
   "author": "",
   "license": "ISC",
