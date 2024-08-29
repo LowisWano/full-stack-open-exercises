@@ -8,4 +8,9 @@ router.get('/', (_req, res) => {
   res.json(patients);
 });
 
+router.get('/:id', (req, res) => {
+  const patient = patientsService.findById(req.params.id);
+  res.json(patient);
+});
+
 export default router;

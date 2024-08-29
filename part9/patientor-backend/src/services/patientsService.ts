@@ -15,7 +15,12 @@ const getNonSensitivePatientEntries = (): nonSensitivePatientEntry[] => {
   }));
 };
 
+const findById = (id: string): nonSensitivePatientEntry | undefined => {
+  return patients.find((patient) => patient.id === id);
+};
+
 export default {
   getPatientEntries,
-  getNonSensitivePatientEntries
+  getNonSensitivePatientEntries,
+  findById
 };
