@@ -10,7 +10,12 @@ router.get('/', (_req, res) => {
 
 router.get('/:id', (req, res) => {
   const patient = patientsService.findById(req.params.id);
-  res.json(patient);
+
+  if(!patient){
+    return res.status(404).end();
+  }
+
+  return res.json(patient);
 });
 
 export default router;
