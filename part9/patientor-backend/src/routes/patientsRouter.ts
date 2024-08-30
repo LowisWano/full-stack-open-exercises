@@ -1,5 +1,6 @@
 import express from "express";
 import patientsService from "../services/patientsService";
+import { toNewPatientEntry } from "../utils/toNewPatientEntry";
 
 const router = express.Router();
 
@@ -16,6 +17,20 @@ router.get('/:id', (req, res) => {
   }
 
   return res.json(patient);
+});
+
+router.post('/', (req, res) => {
+  try{
+    const entry = toNewPatientEntry(req.body);
+    const patient = patientsService.addPatient(entry);
+    res.json(patient);
+  }catch(error){
+    let errorMessage = 'Something went wrong.';
+    if (error instanceof Error) {
+      errorMessage += ' Error: ' + error.message;
+    }
+    res.status(400).send(errorMessage);
+  }
 });
 
 export default router;

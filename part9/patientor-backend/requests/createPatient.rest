@@ -1,0 +1,11 @@
+POST http://localhost:3001/api/patients/
+Content-Type: application/json
+
+# valid fields
+{
+  "name": "Luis Andrei Ouano",
+  "dateOfBirth": "2005-02-24",
+  "ssn": "090471-8890",
+  "gender": "male",
+  "occupation": "Software Engineer"
+}
