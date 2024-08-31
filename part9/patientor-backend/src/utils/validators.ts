@@ -1,4 +1,14 @@
 import { Gender } from "../types";
+import { z } from "zod";
+
+// schema
+export const newPatientEntrySchema = z.object({
+  name: z.string(),
+  dateOfBirth: z.string().date(),
+  ssn: z.string().optional(),
+  gender: z.nativeEnum(Gender),
+  occupation: z.string()
+});
 
 // validators
 const isString = (text: unknown): text is string => {

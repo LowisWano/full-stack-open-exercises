@@ -1,3 +1,6 @@
+import { newPatientEntrySchema } from "./utils/validators";
+import { z } from "zod";
+
 export interface Diagnosis {
   code: string;
   name: string;
@@ -19,5 +22,5 @@ export interface Patient {
   occupation: string; 
 }
 
-export type newPatientEntry = Omit<Patient, 'id'>;
+export type newPatientEntry = z.infer<typeof newPatientEntrySchema>;
 export type nonSensitivePatientEntry = Omit<Patient, 'ssn'>;
