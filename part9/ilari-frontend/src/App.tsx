@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react'
-import DiaryEntries from './components/DiaryEntries'
 import { getAllDiaries } from './services/diaryService'
 import { Diary } from './types'
+
+import DiaryEntries from './components/DiaryEntries'
+import CreateDiary from './components/CreateDiary'
 
 function App() {
 
@@ -15,6 +17,7 @@ function App() {
 
   return (
     <>
+      <CreateDiary/>
       <DiaryEntries diaries={diaries} />
     </>
   )
