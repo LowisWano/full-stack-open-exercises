@@ -17,3 +17,5 @@ export type Diary = {
   weather: Weather;
   visibility: Visibility;
 }
+
+export type NewDiaryEntry = Omit<Diary, 'id'>

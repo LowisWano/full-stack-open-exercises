@@ -1,19 +1,20 @@
+// import { createDiaryEntry } from "../services/diaryService"
 
 const CreateDiary = () => {
 
   const handleCreateDiarySubmit = (event: React.SyntheticEvent) => {
     event.preventDefault()
-    console.log('yay')
+    console.log(event.target.weather.value)
   }
 
   return (
     <div>
       <h1>Add new entry</h1>
       <form onSubmit={handleCreateDiarySubmit}>
-        <p>date<input /></p>
-        <p>visibility<input /></p>
-        <p>weather<input /></p>
-        <p>comment<input /></p>
+        <p>date<input type="text" name="date"/></p>
+        <p>visibility<input type="text" name="visibility"/></p>
+        <p>weather<input type="text" name="weather"/></p>
+        <p>comment<input type="text" name="comment"/></p>
         <button type='submit'>add</button>
       </form>
     </div>
