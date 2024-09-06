@@ -1,10 +1,27 @@
-// import { createDiaryEntry } from "../services/diaryService"
+import { Dispatch, SetStateAction } from "react"
+import { createDiaryEntry } from "../services/diaryService"
+import { NewDiaryEntry, Diary } from "../types"
 
-const CreateDiary = () => {
+interface CreateDiaryProps{
+  diaries: Diary[];
+  setDiaries: Dispatch<SetStateAction<Diary[]>>
+}
 
-  const handleCreateDiarySubmit = (event: React.SyntheticEvent) => {
+const CreateDiary = (props: CreateDiaryProps) => {
+
+  const handleCreateDiarySubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault()
-    console.log(event.target.weather.value)
+    const { diaries, setDiaries } = props
+    const formData = event.target as HTMLFormElement
+    const newDiary: NewDiaryEntry = {
+      date: formData.date.value,
+      weather: formData.weather.value,
+      visibility: formData.visibility.value,
+      comment: formData.comment.value
+    }
+    const createdDiary = await createDiaryEntry(newDiary)
+    setDiaries(diaries.concat(createdDiary))
+    formData.reset()
   }
 
   return (
