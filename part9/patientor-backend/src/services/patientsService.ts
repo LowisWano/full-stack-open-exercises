@@ -12,18 +12,20 @@ const getNonSensitivePatientEntries = (): nonSensitivePatientEntry[] => {
     name,
     dateOfBirth,
     gender,
-    occupation
+    occupation,
+    entries: []
   }));
 };
 
 const findById = (id: string): nonSensitivePatientEntry | undefined => {
-  return patients.find((patient) => patient.id === id);
+  return getNonSensitivePatientEntries().find((patient) => patient.id === id);
 };
 
 const addPatient = (patient: newPatientEntry): Patient => {
   const newPatient = {
     id: uuid(),
-    ...patient
+    ...patient,
+    entries: []
   };
 
   patients.push(newPatient);

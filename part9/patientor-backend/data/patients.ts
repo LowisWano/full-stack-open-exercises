@@ -45,9 +45,15 @@ const data = [
 ];
 
 const patientEntries: Patient[] = data.map(obj => {
-  const object = toNewPatientEntry(obj) as Patient;
-  object.id = obj.id;
-  return object;
+  const validatedEntry = toNewPatientEntry(obj);
+  console.log(validatedEntry);
+  const newEntry = {
+    ...validatedEntry,
+    id: obj.id,
+    entries: []
+  };
+  console.log(newEntry);
+  return newEntry;
 }); 
 
 export default patientEntries;

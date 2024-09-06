@@ -1,6 +1,11 @@
 import { newPatientEntrySchema } from "./utils/validators";
 import { z } from "zod";
 
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
+export interface Entry{
+  
+}
+
 export interface Diagnosis {
   code: string;
   name: string;
@@ -19,7 +24,8 @@ export interface Patient {
   dateOfBirth: string;
   ssn?: string;
   gender: Gender;
-  occupation: string; 
+  occupation: string;
+  entries: Entry[]
 }
 
 export type newPatientEntry = z.infer<typeof newPatientEntrySchema>;
