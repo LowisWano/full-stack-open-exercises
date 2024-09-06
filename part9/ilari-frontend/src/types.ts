@@ -19,4 +19,6 @@ export type Diary = {
   comment: string;
 }
 
+export type NotifType = string | null
+
 export type NewDiaryEntry = Omit<Diary, 'id'>

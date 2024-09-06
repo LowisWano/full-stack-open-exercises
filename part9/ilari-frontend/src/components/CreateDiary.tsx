@@ -1,32 +1,46 @@
 import { Dispatch, SetStateAction } from "react"
 import { createDiaryEntry } from "../services/diaryService"
-import { NewDiaryEntry, Diary } from "../types"
+import { Diary, NotifType } from "../types"
+import axios from "axios"
+import Notification from '../components/Notification'
 
 interface CreateDiaryProps{
-  diaries: Diary[];
+  diaries: Diary[]
   setDiaries: Dispatch<SetStateAction<Diary[]>>
+  notif: NotifType
+  setNotif: Dispatch<SetStateAction<NotifType>>
 }
 
-const CreateDiary = (props: CreateDiaryProps) => {
+const CreateDiary = ({ diaries, setDiaries, notif, setNotif }: CreateDiaryProps) => {
 
   const handleCreateDiarySubmit = async (event: React.SyntheticEvent) => {
     event.preventDefault()
-    const { diaries, setDiaries } = props
     const formData = event.target as HTMLFormElement
-    const newDiary: NewDiaryEntry = {
-      date: formData.date.value,
-      weather: formData.weather.value,
-      visibility: formData.visibility.value,
-      comment: formData.comment.value
+
+    try{
+      const createdDiary = await createDiaryEntry({
+        date: formData.date.value,
+        weather: formData.weather.value,
+        visibility: formData.visibility.value,
+        comment: formData.comment.value
+      })
+
+      setDiaries(diaries.concat(createdDiary))
+      formData.reset()
+    }catch(error){
+      if (axios.isAxiosError(error)) {
+        console.error(error.response?.data)
+        setNotif(error.response?.data)
+      } else {
+        console.error(error)
+      }
     }
-    const createdDiary = await createDiaryEntry(newDiary)
-    setDiaries(diaries.concat(createdDiary))
-    formData.reset()
   }
 
   return (
     <div>
       <h1>Add new entry</h1>
+      <Notification notif={notif}/>
       <form onSubmit={handleCreateDiarySubmit}>
         <p>date<input type="text" name="date"/></p>
         <p>visibility<input type="text" name="visibility"/></p>
