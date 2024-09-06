@@ -46,13 +46,11 @@ const data = [
 
 const patientEntries: Patient[] = data.map(obj => {
   const validatedEntry = toNewPatientEntry(obj);
-  console.log(validatedEntry);
   const newEntry = {
     ...validatedEntry,
     id: obj.id,
     entries: []
   };
-  console.log(newEntry);
   return newEntry;
 }); 
 

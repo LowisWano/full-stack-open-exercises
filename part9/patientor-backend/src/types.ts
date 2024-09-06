@@ -29,4 +29,4 @@ export interface Patient {
 }
 
 export type newPatientEntry = z.infer<typeof newPatientEntrySchema>;
-export type nonSensitivePatientEntry = Omit<Patient, 'ssn'>;
+export type nonSensitivePatientEntry = Omit<Patient, 'ssn' | 'entries'>;

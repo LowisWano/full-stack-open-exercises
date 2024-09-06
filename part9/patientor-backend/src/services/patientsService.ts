@@ -13,12 +13,11 @@ const getNonSensitivePatientEntries = (): nonSensitivePatientEntry[] => {
     dateOfBirth,
     gender,
     occupation,
-    entries: []
   }));
 };
 
 const findById = (id: string): nonSensitivePatientEntry | undefined => {
-  return getNonSensitivePatientEntries().find((patient) => patient.id === id);
+  return patients.find((patient) => patient.id === id);
 };
 
 const addPatient = (patient: newPatientEntry): Patient => {
