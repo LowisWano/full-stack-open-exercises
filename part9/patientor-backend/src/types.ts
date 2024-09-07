@@ -1,10 +1,9 @@
 import { newPatientEntrySchema } from "./utils/validators";
 import { z } from "zod";
 
-// eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Entry{
-  
-}
+/**
+ * Entry types
+ */
 
 export interface Diagnosis {
   code: string;
@@ -12,6 +11,49 @@ export interface Diagnosis {
   latin?: string;
 }
 
+interface BaseEntry {
+  id: string;
+  description: string;
+  date: string;
+  specialist: string;
+  diagnosisCodes?: Array<Diagnosis['code']>;
+}
+
+export enum HealthCheckRating {
+  "Healthy" = 0,
+  "LowRisk" = 1,
+  "HighRisk" = 2,
+  "CriticalRisk" = 3
+}
+
+interface HealthCheckEntry extends BaseEntry {
+  type: "HealthCheck";
+  healthCheckRating: HealthCheckRating;
+}
+
+interface OccupationalHealthcareEntry extends BaseEntry {
+  type: string;
+  employerName: string;
+  sickLeave: string[];
+}
+
+type Discharge = {
+  date: string;
+  criteria: string;
+}
+
+interface HospitalEntry extends BaseEntry {
+  discharge: Discharge;
+}
+
+export type Entry =
+  | HospitalEntry
+  | OccupationalHealthcareEntry
+  | HealthCheckEntry;
+
+/**
+ * Patient Types
+ */
 export enum Gender {
   Male = 'male',
   Female = 'female',
@@ -29,4 +71,5 @@ export interface Patient {
 }
 
 export type newPatientEntry = z.infer<typeof newPatientEntrySchema>;
+
 export type nonSensitivePatientEntry = Omit<Patient, 'ssn' | 'entries'>;

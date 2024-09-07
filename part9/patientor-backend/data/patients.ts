@@ -44,6 +44,7 @@ const data = [
   }
 ];
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const patientEntries: Patient[] = data.map(obj => {
   const validatedEntry = toNewPatientEntry(obj);
   const newEntry = {
@@ -54,4 +55,4 @@ const patientEntries: Patient[] = data.map(obj => {
   return newEntry;
 }); 
 
-export default patientEntries;
+// export default patientEntries;
