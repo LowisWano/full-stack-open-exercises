@@ -1,16 +1,33 @@
-// import { Diagnosis, Entry } from "../../types";
+import { useEffect, useState } from "react";
+import { OccupationalHealthcareEntry, Diagnosis } from "../../types";
+import diagnosesService from "../../services/diagnoses";
+import WorkIcon from '@mui/icons-material/Work';
 
-const OccupationalHealthcare = () => {
+type PropType = {
+  entry: OccupationalHealthcareEntry
+};
+
+const OccupationalHealthcare = ({ entry }: PropType) => {
+  const [diagnoses, setDiagnoses] = useState<Diagnosis[] | null>(null);
+
+  useEffect(() => {
+    diagnosesService.getAllDiagnoses().then((data)=>{
+      setDiagnoses(data);
+    });
+  }, []);
+  
   return (
     <>
-     <div>occupational healthcare</div>
-      {/* <div>
+      <p>{entry.date} <WorkIcon/></p>
+      <p>{entry.description}</p>
+      <ul>
         { 
           entry.diagnosisCodes && entry.diagnosisCodes.map((code: string)=>(
-            <div key={code}>{code} {diagnoses.find(d => d.code == code )?.name}</div>
+            <li key={code}>{code} {diagnoses && diagnoses.find(d => d.code == code )?.name}</li>
           ))
         }
-      </div> */}
+      </ul>
+      <p>diagnoses by {entry.specialist}</p>
     </>
   );
 };
