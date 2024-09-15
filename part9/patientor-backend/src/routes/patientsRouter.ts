@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import patientsService from "../services/patientsService";
 import { patientEntryParser, errorMiddleware } from "../utils/middlewares";
-import { Patient, newPatientEntry, Entry } from "../types";
+import { Patient, newPatientEntry, Entry, Params, NewEntry } from "../types";
+import { EntrySchema } from "../utils/validators";
 
 const router = express.Router();
 
@@ -25,8 +26,10 @@ router.post('/', patientEntryParser,(req: Request<unknown, unknown, newPatientEn
   res.json(patient);
 });
 
-router.post('/:id/entries', (req: Request<unknown, unknown, Entry>, res: Response<Entry>) => {
-  
+router.post('/:id/entries', (req: Request<Params, unknown, NewEntry>, res: Response<Entry>) => {
+  const parsedEntry = EntrySchema.parse(req.body);
+  const validatedEntry = patientsService.createEntry(parsedEntry, req.params.id);
+  res.json(validatedEntry);
 });
 
 router.use(errorMiddleware);

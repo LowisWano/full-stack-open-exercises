@@ -1,6 +1,6 @@
 import patients from "../../data/patients-full";
 import { v1 as uuid } from 'uuid';
-import { Patient, nonSensitivePatientEntry, newPatientEntry, Entry } from "../types";
+import { Patient, nonSensitivePatientEntry, newPatientEntry, Entry, NewEntry } from "../types";
 
 const assertNever = (value: never): never => {
   throw new Error(
@@ -37,26 +37,42 @@ const addPatient = (patient: newPatientEntry): Patient => {
   return newPatient;
 };
 
-const createEntry = (entry: Entry): Entry => {
+const createEntry = (entry: NewEntry, patientId: string): Entry => {
   switch(entry.type){
-    case "Hospital":
-      return {
+    case "Hospital":{
+      const newEntry = {
         ...entry,
-        discharge: entry.discharge
+        discharge: entry.discharge,
+        id: uuid()
       };
-    case "OccupationalHealthcare":
-      return {
+      const patientToUpdate = patients.findIndex((patient) => patient.id === patientId);
+      patients[patientToUpdate].entries.push(newEntry);
+      console.log(patients[patientToUpdate].entries);
+      return newEntry;
+    }
+    case "OccupationalHealthcare":{
+      const newEntry = {
         ...entry,
         employerName: entry.employerName,
-        sickLeave: entry.sickLeave
+        sickLeave: entry.sickLeave,
+        id: uuid()
       };
-    case "HealthCheck":
-      return {
+      const patientToUpdate = patients.findIndex((patient) => patient.id === patientId);
+      patients[patientToUpdate].entries.push(newEntry);
+      return newEntry;
+    }
+    case "HealthCheck":{
+      const newEntry = {
         ...entry,
-        healthCheckRating: entry.healthCheckRating
+        healthCheckRating: entry.healthCheckRating,
+        id: uuid()
       };
+      const patientToUpdate = patients.findIndex((patient) => patient.id === patientId);
+      patients[patientToUpdate].entries.push(newEntry);
+      return newEntry;
+    }
     default:
-      assertNever(entry);
+      return assertNever(entry);
   }
 };
 
@@ -66,5 +82,6 @@ export default {
   getPatientEntries,
   getNonSensitivePatientEntries,
   getPatient,
-  addPatient
+  addPatient,
+  createEntry
 };

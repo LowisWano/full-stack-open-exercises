@@ -1,7 +1,44 @@
-import { Gender } from "../types";
+import { Gender, HealthCheckRating } from "../types";
 import { z } from "zod";
 
 // schema
+const BaseEntrySchema = z.object({
+  description: z.string(),
+  date: z.string().date(),
+  specialist: z.string(),
+  diagnosisCodes: z.array(z.string()).optional(),
+});
+
+const HealthCheckEntrySchema = BaseEntrySchema.extend({
+  type: z.literal("HealthCheck"),
+  healthCheckRating: z.nativeEnum(HealthCheckRating),
+});
+
+
+const OccupationalHealthcareEntrySchema = BaseEntrySchema.extend({
+  type: z.literal("OccupationalHealthcare"),
+  employerName: z.string(),
+  sickLeave: z.object({
+    startDate: z.string().date(),
+    endDate: z.string().date(),
+  }).optional()
+});
+
+const HospitalEntrySchema = BaseEntrySchema.extend({
+  type: z.literal("Hospital"),
+  discharge: z.object({
+    date: z.string().date(),
+    criteria: z.string()
+  })
+});
+
+// create the union entry schema 
+export const EntrySchema = z.union([
+  HealthCheckEntrySchema,
+  OccupationalHealthcareEntrySchema,
+  HospitalEntrySchema,
+]);
+
 export const newPatientEntrySchema = z.object({
   name: z.string(),
   dateOfBirth: z.string().date(),

@@ -1,0 +1,16 @@
+POST http://localhost:3001/api/patients/d2773336-f723-11e9-8f0b-362b9e155667/entries
+Content-Type: application/json
+
+{
+  "date": "2015-01-02",
+  "type": "Hospital",
+  "specialist": "MD House",
+  "diagnosisCodes": [
+    "S62.5"
+  ],
+  "description": "This nibba jus attacked me",
+  "discharge": {
+    "date": "2015-01-16",
+    "criteria": "Thumb has healed."
+  }
+}
